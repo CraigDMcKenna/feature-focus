@@ -3,7 +3,7 @@ Manage Customer Feature Requests
 
 [Preview Feature Focus](http://feature-focus.us-west-2.elasticbeanstalk.com/) on AWS.
 
-[Roadmap](../blob/master/ROADMAP.md)
+[Roadmap](https://github.com/CraigDMcKenna/feature-focus/blob/master/ROADMAP.md)
 
 ## Installation
 
