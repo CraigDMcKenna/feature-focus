@@ -27,6 +27,5 @@ if (TARGET === 'start') {
   app.listen(process.env.PORT)
 }
 
-  
 
 export default app
