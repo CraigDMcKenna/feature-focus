@@ -15,7 +15,7 @@ Manage Customer Feature Requests
  $ nmp install
  ```
  
- ## Development Setup
+## Development Setup
  
  **1. Install Nodemon**
 
