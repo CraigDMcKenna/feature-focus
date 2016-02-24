@@ -1,6 +1,10 @@
 # Feature Focus
 Manage Customer Feature Requests
 
+[Preview Feature Focus](http://feature-focus.us-west-2.elasticbeanstalk.com/) on AWS.
+
+[Roadmap](../blob/master/ROADMAP.md)
+
 ## Installation
 
 **1. Clone this repository**
