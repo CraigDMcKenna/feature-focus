@@ -4,6 +4,8 @@ let app = express()
 
 const TARGET = process.env.npm_lifecycle_event
 
+app.use(express.static('public'))
+
 // Dev Server
 if (TARGET === 'start') {
   let webpack = require('webpack')
@@ -18,10 +20,13 @@ if (TARGET === 'start') {
   }))
 
   app.use(require('webpack-hot-middleware')(compiler))
+  
+  app.listen(3000, '0.0.0.0', () => console.log('App available at localhost:3000'))
+} else {
+  
+  app.listen(process.env.PORT)
 }
 
-app.use(express.static('public'))
-
-app.listen(3000, '0.0.0.0', () => console.log('Listening on port 3000'))
+  
 
 export default app
