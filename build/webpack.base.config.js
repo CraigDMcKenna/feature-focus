@@ -30,9 +30,10 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
+      template: path.join(__dirname, '../src/index.ejs'),
       title: 'Feature Focus',
-      template: path.join(__dirname, '../src/index.template.html'),
-      inject: true
+      description: 'Manage Customer Feature Requests',
+      favicon: path.join(__dirname, '../src/images/favicon.ico')
     })
   ],
 
