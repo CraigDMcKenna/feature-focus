@@ -1,0 +1,26 @@
+ .header { 
+  composes: purpleBackground from '../../styles-common/colors.css';
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+ }
+ 
+.navBar {
+  flex-grow: 1;
+  justify-content: flex-start;
+  max-width: 1400px;
+}
+
+.logoSection {
+  composes: serif large from '../../styles-common/typography.css';
+  display: flex;
+  align-items: center;
+  letter-spacing: .4em;
+  color: white;
+}
+
+.logo {
+  margin-right: 18px;
+  height: 40px;
+  width: 40px;
+}

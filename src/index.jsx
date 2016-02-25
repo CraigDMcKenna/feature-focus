@@ -2,12 +2,11 @@ import React from 'react'
 import ReactDom from 'react-dom'
 import App from './components/App'
 
-//import Typography, {body} from './common-styles/typography.css'
-//import './common-styles/layout.css'
+import styles from './styles-common/layout.css'
 
-const appSection = document.createElement('section')
+const appSection = document.createElement('div')
 
-appSection.className = 'app-section'
+appSection.id = 'root'
 
 document.body.insertBefore(appSection, document.body.firstChild);
 

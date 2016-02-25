@@ -21,7 +21,7 @@ Manage Customer Feature Requests
  
 ## Development Setup
  
- **1. Install Nodemon**
+ **1. Install Nodemon and Babel CLI**
 
  ```bash
  $ npm install nodemon -g
@@ -42,7 +42,7 @@ the terminal navigate to **localhost:3000** to view the app
 in your browser.
  
 Webpack will watch the ```src/``` files and serve changes in 
-real time. Typically with you will see any changes happen
+real time. Typically you will see any changes happen
 automatically withoud the need to refresh your browser.
 
 Some changes to the source files may require manual browser

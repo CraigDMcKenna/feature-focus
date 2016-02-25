@@ -1,0 +1,17 @@
+.serif {
+  font-family: 'Noto Sans', sans-serif;
+  letter-spacing: .2em;
+}
+
+.serifBold {
+  composes: serif;
+  font-weight: 700;
+}
+
+.large {
+  font-size: 1.2em;
+}
+
+.larger {
+  font-size: 1.6em;
+}

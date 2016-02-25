@@ -1,0 +1,32 @@
+.container {
+  margin-bottom: 24px;
+}
+
+.label {
+  composes: serifBold large from '../../styles-common/typography.css';
+  composes: darkGray from '../../styles-common/colors.css';
+  display: block;
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+
+.inputContainer {
+  composes: purpleBackground from '../../styles-common/colors.css';
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 29em;
+  padding: 12px 0;
+}
+
+.icon {
+  display: none;
+  height: 36px;
+  width: 36px;
+}
+
+@media screen and (min-width: 586px) {
+   .icon {
+     display: initial;
+   }
+}

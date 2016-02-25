@@ -14,12 +14,16 @@
   * ongoing
   
 ### 5. Must Have Features (form fields)
-  * **Title**: A short, descriptive name of the feature request.
-  * **Description**: A long description of the feature request.
-  * **Client**: A selection list of clients (use "Client A", "Client B", "Client C")
-  * **Target Date**: The date that the client is hoping to have the feature.
-  * **Ticket URL**: A field for storing any URL
-  * **Product Area**: A selection list of product areas (use 'Policies', 'Billing', 'Claims', 'Reports')
+  * ~~**Title**: A short, descriptive name of the feature request.~~
+  * ~~**Description**: A long description of the feature request.~~
+  * ~~**Client**: A selection list of clients (use "Client A", "Client B", "Client C")~~
+  * **Client Priority**: A numbered priority according to the client (1...n). 
+   Client Priority numbers should not repeat for the given client, 
+   so if a priority is set on a new feature as "1", then all other
+   feature requests for that client should be reordered.
+  * ~~**Target Date**: The date that the client is hoping to have the feature.~~
+  * ~~**Ticket URL**: A field for storing any URL~~
+  * ~~**Product Area**: A selection list of product areas (use 'Policies', 'Billing', 'Claims', 'Reports')~~
   
 ### 6. High Priority Features
   * Database

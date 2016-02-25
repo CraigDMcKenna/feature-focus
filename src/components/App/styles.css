@@ -1,0 +1,11 @@
+.contentContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+}
+
+.content {
+  flex-grow: 1;
+  max-width: 1400px;
+}
