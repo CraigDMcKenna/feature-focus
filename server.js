@@ -1,13 +1,57 @@
 import express from 'express'
+import r from 'rethinkdb'
+import bodyParser from 'body-parser'
+import config from './config'
 
 let app = express()
 
-const TARGET = process.env.npm_lifecycle_event
+// True if started via npm start script
+const IS_DEV = process.env.npm_lifecycle_event === 'start'
 
+// static 
 app.use(express.static('public'))
 
-// Dev Server
-if (TARGET === 'start') {
+// DB Connection
+let rdbConn;
+
+app.use(createConnection)
+
+function createConnection(req, res, next) {
+  r.connect(config.rethinkdb).then((conn) => {
+      res._rdbConn = conn
+      next()
+  })
+}
+
+
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+// API routes
+let router = express.Router()
+
+// All api routes will begin with '/api'
+app.use('/api', router)
+
+// Clients Route
+router.route('/clients')
+
+.get((req, res) => {
+  r.table('clients').run(res._rdbConn).then((cursor) => {
+    return cursor.toArray()
+  }).then((result) => {
+    res.json(result)
+  })
+})
+
+
+
+
+
+
+
+// Dev server if in Development, otherwise listen on env port
+if (IS_DEV) {
   let webpack = require('webpack')
   let webpackConfig = require('./build/webpack.dev.config')
   let compiler = webpack(webpackConfig)
@@ -26,6 +70,5 @@ if (TARGET === 'start') {
   
   app.listen(process.env.PORT)
 }
-
 
 export default app

@@ -3,6 +3,7 @@ node_modules/
 public/
 typings/
 *.log
+config.js
 
 # Elastic Beanstalk Files
 
@@ -11,4 +12,3 @@ typings/
 !.elasticbeanstalk/*.cfg.yml
 
 !.elasticbeanstalk/*.global.yml
-
