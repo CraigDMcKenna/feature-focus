@@ -4,6 +4,21 @@ import * as stylesCommon from '../common.css'
 
 
 export default class TextArea extends React.Component {
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      value: this.props.value
+    }
+    
+    this.handleChange = this.handleChange.bind(this)
+  }
+  
+  handleChange(event) {
+    this.setState({value: event.target.value})
+    this.props.onChange(event.target.value)
+  }
+  
   render() {
     return (
       <div className={stylesCommon.container}>
@@ -18,7 +33,8 @@ export default class TextArea extends React.Component {
             id={this.props.id}
             placeholder={this.props.placeHolder} 
             className={styles.textInput}
-            value={this.props.value}
+            value={this.state.value}
+            onChange={this.handleChange}
           >
           </textarea>
         </div>

@@ -12,8 +12,8 @@ import qMarkIcon from '../../images/help-circle.png'
 
 
 export default class AddFeature extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     
     this.state = { 
       clients: [], 
@@ -24,7 +24,7 @@ export default class AddFeature extends React.Component {
         title: '',
         description: '',
         priority: 0,
-        targetDate: 0,
+        targetDate: '',
         ticketUrl: '',
         productId: ''
       },
@@ -35,8 +35,13 @@ export default class AddFeature extends React.Component {
     this.loadClients = this.loadClients.bind(this)
     this.loadProducts = this.loadProducts.bind(this)
     this.loadPriorities = this.loadPriorities.bind(this)
+    this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleClientSelect = this.handleClientSelect.bind(this)
     this.handlePrioritySelect = this.handlePrioritySelect.bind(this)
+    this.handleDateChange = this.handleDateChange.bind(this)
+    this.handleUrlChange = this.handleUrlChange.bind(this)
+    this.handleProductSelect = this.handleProductSelect.bind(this)
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   
@@ -68,6 +73,14 @@ export default class AddFeature extends React.Component {
     })
   }
   
+  handleTitleChange(value) {
+    let requestObject = this.state.requestSubmission
+
+    requestObject.title = value
+    
+    this.setState({requestSubmission: requestObject})
+  }
+  
   handleClientSelect(event) {
     let requestObject = this.state.requestSubmission
 
@@ -90,8 +103,41 @@ export default class AddFeature extends React.Component {
     this.setState({requestSubmission: requestObject})
   }
   
+  handleDateChange(value) {
+    let requestObject = this.state.requestSubmission
+
+    requestObject.targetDate = value
+    
+    this.setState({requestSubmission: requestObject})
+  }
+  
+   handleUrlChange(value) {
+    let requestObject = this.state.requestSubmission
+
+    requestObject.ticketUrl = value
+  
+    this.setState({requestSubmission: requestObject})
+  }
+  
+  handleProductSelect(event) {
+    let requestObject = this.state.requestSubmission
+
+    requestObject.productId = event.target.value
+  
+    this.setState({requestSubmission: requestObject})
+  }
+  
+  handleDescriptionChange(value) {    
+    let requestObject = this.state.requestSubmission
+
+    requestObject.description = value
+  
+    this.setState({requestSubmission: requestObject})
+  }
+  
   handleSubmit(event) {
     event.preventDefault()
+    console.log('Clicked Submit')
   }
   
   componentDidMount() {
@@ -101,19 +147,15 @@ export default class AddFeature extends React.Component {
   
   render() {   
     return (
-      <section className={styles.addFeature}>
+      <section>
         <form className={styles.addFeatureForm}onSubmit={this.handleSubmit}>
           <TextInput
             type="text"
             id="title"
             label="Title"
             placeHolder="A Short Descriptive Title"
-          />
-          
-          <TextArea
-            id="description"
-            label="Description"
-            placeHolder="A description of the feature request."
+            value={this.state.requestSubmission.title}
+            onChange={this.handleTitleChange}
           />
           
           <Select
@@ -143,12 +185,14 @@ export default class AddFeature extends React.Component {
             type="date"
             id="date"
             label="Target Date"
+            onChange={this.handleDateChange}
           />
           
           <TextInput
             type="url"
             id="url"
             label="Ticket URL"
+            onChange={this.handleUrlChange}
           />
           
           <Select
@@ -158,6 +202,15 @@ export default class AddFeature extends React.Component {
             options={this.state.products}
             optionValue="name"
             optionKey="id"
+            onChange={this.handleProductSelect}
+          />
+          
+          <TextArea
+            id="description"
+            label="Description"
+            placeHolder="A description of the feature request."
+            value={this.state.requestSubmission.description}
+            onChange={this.handleDescriptionChange}
           />
           
           <SubmitButton

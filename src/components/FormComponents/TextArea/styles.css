@@ -1,5 +1,9 @@
 .textInput {
   composes: serif from '../../../styles-common/typography.css';
   composes: input from '../common.css';
-  height: 6rem; 
+  height: 6rem;
+}
+
+.container {
+  flex-grow: 2;
 }
