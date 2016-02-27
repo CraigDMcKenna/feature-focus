@@ -3,6 +3,7 @@ import request from 'superagent'
 import TextInput from '../FormComponents/TextInput'
 import Select from '../FormComponents/Select'
 import TextArea from '../FormComponents/TextArea'
+import SubmitButton from '../FormComponents/SubmitButton'
 import clients from '../../data/clients'
 import products from '../../data/products'
 import featureRequests from '../../data/feature-requests'
@@ -36,6 +37,7 @@ export default class AddFeature extends React.Component {
     this.loadPriorities = this.loadPriorities.bind(this)
     this.handleClientSelect = this.handleClientSelect.bind(this)
     this.handlePrioritySelect = this.handlePrioritySelect.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   
   loadClients() {
@@ -72,6 +74,8 @@ export default class AddFeature extends React.Component {
     requestObject.clientId = event.target.value
     requestObject.priority = 0
 
+    // reset the priority select box
+    this.refs.priority.refs.selectElement.selectedIndex = 0
     this.setState({requestSubmission: requestObject})
     this.loadPriorities(event.target.value)
     this.setState({priorityIsDisabled: false})
@@ -86,6 +90,10 @@ export default class AddFeature extends React.Component {
     this.setState({requestSubmission: requestObject})
   }
   
+  handleSubmit(event) {
+    event.preventDefault()
+  }
+  
   componentDidMount() {
     this.loadClients()
     this.loadProducts()
@@ -94,23 +102,23 @@ export default class AddFeature extends React.Component {
   render() {   
     return (
       <section className={styles.addFeature}>
-        <form>
+        <form className={styles.addFeatureForm}onSubmit={this.handleSubmit}>
           <TextInput
             type="text"
-            label="Title"
             id="title"
+            label="Title"
             placeHolder="A Short Descriptive Title"
           />
           
-          <TextArea 
-            label="Description"
+          <TextArea
             id="description"
+            label="Description"
             placeHolder="A description of the feature request."
           />
           
           <Select
-            label="Client"
             id="client"
+            label="Client"            
             icon={qMarkIcon}
             placeHolder="Select a Client"
             disabledPlaceHolder={true}
@@ -121,8 +129,9 @@ export default class AddFeature extends React.Component {
           />
           
           <Select
-            label="Priority"
+            ref="priority"
             id="priority"
+            label="Priority"
             icon={qMarkIcon}
             placeHolder={this.state.priorityPlaceHolder}
             disabled={this.state.priorityIsDisabled}
@@ -130,25 +139,29 @@ export default class AddFeature extends React.Component {
             onChange={this.handlePrioritySelect}
           />
           
-          <TextInput 
+          <TextInput
             type="date"
-            label="Target Date"
             id="date"
+            label="Target Date"
           />
           
           <TextInput
             type="url"
-            label="Ticket URL"
             id="url"
+            label="Ticket URL"
           />
           
           <Select
-            label="Product Area"
             id="product"
+            label="Product Area"
             icon={qMarkIcon}
             options={this.state.products}
             optionValue="name"
             optionKey="id"
+          />
+          
+          <SubmitButton
+            buttonText="Submit Feature Request"
           />
         </form>
       </section>

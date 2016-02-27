@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './styles.css'
 import * as stylesCommon from '../common.css'
-import qMarkIcon from '../../../images/help-circle.png'
 
 export default class TextInput extends React.Component {
   render() {
@@ -12,7 +11,7 @@ export default class TextInput extends React.Component {
         </label>
        
         <div className={stylesCommon.inputContainer}>
-          <img src={qMarkIcon} className={styles.icon} />
+          <div className={stylesCommon.icon}></div>
           
           <input type={this.props.type} 
             id={this.props.id} 

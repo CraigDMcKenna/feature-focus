@@ -1,2 +1,11 @@
-.addFeature {  
+.addFeature { 
+  
+}
+
+.addFeatureForm {
+  display: flex;
+  align-items: top;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
