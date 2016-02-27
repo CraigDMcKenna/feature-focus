@@ -3,7 +3,7 @@ import styles from './styles.css'
 import * as stylesCommon from '../common.css'
 import qMarkIcon from '../../../images/help-circle.png'
 
-export default class AddFeature extends React.Component {
+export default class TextArea extends React.Component {
   render() {
     return (
       <div className={stylesCommon.container}>
@@ -16,8 +16,9 @@ export default class AddFeature extends React.Component {
           
           <textarea 
             id={this.props.id}
-              defaultValue={this.props.defaultValue} 
+            placeholder={this.props.placeHolder} 
             className={styles.textInput}
+            value={this.props.value}
           >
           </textarea>
         </div>
