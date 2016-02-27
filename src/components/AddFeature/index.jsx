@@ -1,3 +1,8 @@
+// TODO: Refactor onChange event handlers-
+//       * Move .bind from constructor? Maybe migrate to ES7 Property Initializers?
+//       * Compact onChange into one/few method(s)
+
+
 import React from 'react'
 import request from 'superagent'
 import TextInput from '../FormComponents/TextInput'
@@ -8,8 +13,6 @@ import clients from '../../data/clients'
 import products from '../../data/products'
 import featureRequests from '../../data/feature-requests'
 import styles from './styles.css'
-import qMarkIcon from '../../images/help-circle.png'
-
 
 export default class AddFeature extends React.Component {
   constructor() {
@@ -28,13 +31,16 @@ export default class AddFeature extends React.Component {
         ticketUrl: '',
         productId: ''
       },
+      submissionReady: false,
+      submitDisabled: true,
       priorityIsDisabled: true,
       priorityPlaceHolder: 'First Select a Client'
     }
-    
+
     this.loadClients = this.loadClients.bind(this)
     this.loadProducts = this.loadProducts.bind(this)
     this.loadPriorities = this.loadPriorities.bind(this)
+    this.validate = this.validate.bind(this)
     this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleClientSelect = this.handleClientSelect.bind(this)
     this.handlePrioritySelect = this.handlePrioritySelect.bind(this)
@@ -73,12 +79,33 @@ export default class AddFeature extends React.Component {
     })
   }
   
-  handleTitleChange(value) {
+  validate() {
+    // primitive, needs much more validation
+    let request = this.state.requestSubmission
+    let completeFieldsCount = 0;
+    
+    for (var prop in request) {
+      if (request[prop]) {
+        completeFieldsCount ++
+      }
+    }
+    
+    if (completeFieldsCount === 7) {
+      this.setState({submissionReady: true})
+      this.setState({submitDisabled: false})
+    } else {
+      this.setState({submissionReady: false})
+      this.setState({submitDisabled: true})
+    } 
+  } 
+  
+  handleTitleChange(value, event) {
     let requestObject = this.state.requestSubmission
 
     requestObject.title = value
     
     this.setState({requestSubmission: requestObject})
+    this.validate()
   }
   
   handleClientSelect(event) {
@@ -93,6 +120,7 @@ export default class AddFeature extends React.Component {
     this.loadPriorities(event.target.value)
     this.setState({priorityIsDisabled: false})
     this.setState({priorityPlaceHolder: 'Priority According to Client'})
+    this.validate()
   }
   
   handlePrioritySelect(event) {
@@ -101,6 +129,7 @@ export default class AddFeature extends React.Component {
     requestObject.priority = event.target.value
     
     this.setState({requestSubmission: requestObject})
+    this.validate()
   }
   
   handleDateChange(value) {
@@ -109,6 +138,7 @@ export default class AddFeature extends React.Component {
     requestObject.targetDate = value
     
     this.setState({requestSubmission: requestObject})
+    this.validate()
   }
   
    handleUrlChange(value) {
@@ -117,6 +147,7 @@ export default class AddFeature extends React.Component {
     requestObject.ticketUrl = value
   
     this.setState({requestSubmission: requestObject})
+    this.validate()    
   }
   
   handleProductSelect(event) {
@@ -125,6 +156,7 @@ export default class AddFeature extends React.Component {
     requestObject.productId = event.target.value
   
     this.setState({requestSubmission: requestObject})
+    this.validate()
   }
   
   handleDescriptionChange(value) {    
@@ -133,22 +165,37 @@ export default class AddFeature extends React.Component {
     requestObject.description = value
   
     this.setState({requestSubmission: requestObject})
+    this.validate()    
   }
   
   handleSubmit(event) {
     event.preventDefault()
-    console.log('Clicked Submit')
-  }
+    
+    let submission = this.state.requestSubmission
+    
+    featureRequests.createRequest(submission, (response) => {
+      alert('Request Added: ' + JSON.stringify(response))
+    })
+    
+    this.refs.form.reset()
+    this.setState({priorityIsDisabled: true})
+    this.setState({submitDisabled: true})
+ 
+  } 
   
   componentDidMount() {
     this.loadClients()
     this.loadProducts()
   }
   
-  render() {   
+  render() {
     return (
       <section>
-        <form className={styles.addFeatureForm}onSubmit={this.handleSubmit}>
+        <form
+          ref="form"
+          className={styles.addFeatureForm} 
+          onSubmit={this.handleSubmit}
+        >
           <TextInput
             type="text"
             id="title"
@@ -161,7 +208,6 @@ export default class AddFeature extends React.Component {
           <Select
             id="client"
             label="Client"            
-            icon={qMarkIcon}
             placeHolder="Select a Client"
             disabledPlaceHolder={true}
             options={this.state.clients}
@@ -174,11 +220,11 @@ export default class AddFeature extends React.Component {
             ref="priority"
             id="priority"
             label="Priority"
-            icon={qMarkIcon}
             placeHolder={this.state.priorityPlaceHolder}
+            disabledPlaceHolder={true}
             disabled={this.state.priorityIsDisabled}
             options={this.state.priorities}
-            onChange={this.handlePrioritySelect}
+            onChange={this.handlePrioritySelect.bind(this)}
           />
           
           <TextInput
@@ -192,13 +238,13 @@ export default class AddFeature extends React.Component {
             type="url"
             id="url"
             label="Ticket URL"
+            placeHolder="https://example.com"
             onChange={this.handleUrlChange}
           />
           
           <Select
             id="product"
             label="Product Area"
-            icon={qMarkIcon}
             options={this.state.products}
             optionValue="name"
             optionKey="id"
@@ -215,6 +261,7 @@ export default class AddFeature extends React.Component {
           
           <SubmitButton
             buttonText="Submit Feature Request"
+            disabled={this.state.submitDisabled}
           />
         </form>
       </section>
