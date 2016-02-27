@@ -1,18 +1,22 @@
+// TODO: Refactor onChange event handlers-
+//       * Move .bind from constructor? Maybe migrate to ES7 Property Initializers?
+//       * Compact onChange into one/few method(s)
+
+
 import React from 'react'
 import request from 'superagent'
 import TextInput from '../FormComponents/TextInput'
 import Select from '../FormComponents/Select'
 import TextArea from '../FormComponents/TextArea'
+import SubmitButton from '../FormComponents/SubmitButton'
 import clients from '../../data/clients'
 import products from '../../data/products'
 import featureRequests from '../../data/feature-requests'
 import styles from './styles.css'
-import qMarkIcon from '../../images/help-circle.png'
-
 
 export default class AddFeature extends React.Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     
     this.state = { 
       clients: [], 
@@ -23,19 +27,28 @@ export default class AddFeature extends React.Component {
         title: '',
         description: '',
         priority: 0,
-        targetDate: 0,
+        targetDate: '',
         ticketUrl: '',
         productId: ''
       },
+      submissionReady: false,
+      submitDisabled: true,
       priorityIsDisabled: true,
       priorityPlaceHolder: 'First Select a Client'
     }
-    
+
     this.loadClients = this.loadClients.bind(this)
     this.loadProducts = this.loadProducts.bind(this)
     this.loadPriorities = this.loadPriorities.bind(this)
+    this.validate = this.validate.bind(this)
+    this.handleTitleChange = this.handleTitleChange.bind(this)
     this.handleClientSelect = this.handleClientSelect.bind(this)
     this.handlePrioritySelect = this.handlePrioritySelect.bind(this)
+    this.handleDateChange = this.handleDateChange.bind(this)
+    this.handleUrlChange = this.handleUrlChange.bind(this)
+    this.handleProductSelect = this.handleProductSelect.bind(this)
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   
   loadClients() {
@@ -66,16 +79,48 @@ export default class AddFeature extends React.Component {
     })
   }
   
+  validate() {
+    // primitive, needs much more validation
+    let request = this.state.requestSubmission
+    let completeFieldsCount = 0;
+    
+    for (var prop in request) {
+      if (request[prop]) {
+        completeFieldsCount ++
+      }
+    }
+    
+    if (completeFieldsCount === 7) {
+      this.setState({submissionReady: true})
+      this.setState({submitDisabled: false})
+    } else {
+      this.setState({submissionReady: false})
+      this.setState({submitDisabled: true})
+    } 
+  } 
+  
+  handleTitleChange(value, event) {
+    let requestObject = this.state.requestSubmission
+
+    requestObject.title = value
+    
+    this.setState({requestSubmission: requestObject})
+    this.validate()
+  }
+  
   handleClientSelect(event) {
     let requestObject = this.state.requestSubmission
 
     requestObject.clientId = event.target.value
     requestObject.priority = 0
 
+    // reset the priority select box
+    this.refs.priority.refs.selectElement.selectedIndex = 0
     this.setState({requestSubmission: requestObject})
     this.loadPriorities(event.target.value)
     this.setState({priorityIsDisabled: false})
     this.setState({priorityPlaceHolder: 'Priority According to Client'})
+    this.validate()
   }
   
   handlePrioritySelect(event) {
@@ -84,34 +129,85 @@ export default class AddFeature extends React.Component {
     requestObject.priority = event.target.value
     
     this.setState({requestSubmission: requestObject})
+    this.validate()
   }
+  
+  handleDateChange(value) {
+    let requestObject = this.state.requestSubmission
+
+    requestObject.targetDate = value
+    
+    this.setState({requestSubmission: requestObject})
+    this.validate()
+  }
+  
+   handleUrlChange(value) {
+    let requestObject = this.state.requestSubmission
+
+    requestObject.ticketUrl = value
+  
+    this.setState({requestSubmission: requestObject})
+    this.validate()    
+  }
+  
+  handleProductSelect(event) {
+    let requestObject = this.state.requestSubmission
+
+    requestObject.productId = event.target.value
+  
+    this.setState({requestSubmission: requestObject})
+    this.validate()
+  }
+  
+  handleDescriptionChange(value) {    
+    let requestObject = this.state.requestSubmission
+
+    requestObject.description = value
+  
+    this.setState({requestSubmission: requestObject})
+    this.validate()    
+  }
+  
+  handleSubmit(event) {
+    event.preventDefault()
+    
+    let submission = this.state.requestSubmission
+    
+    featureRequests.createRequest(submission, (response) => {
+      alert('Request Added: ' + JSON.stringify(response))
+    })
+    
+    this.refs.form.reset()
+    this.setState({priorityIsDisabled: true})
+    this.setState({submitDisabled: true})
+ 
+  } 
   
   componentDidMount() {
     this.loadClients()
     this.loadProducts()
   }
   
-  render() {   
+  render() {
     return (
-      <section className={styles.addFeature}>
-        <form>
+      <section>
+        <form
+          ref="form"
+          className={styles.addFeatureForm} 
+          onSubmit={this.handleSubmit}
+        >
           <TextInput
             type="text"
-            label="Title"
             id="title"
+            label="Title"
             placeHolder="A Short Descriptive Title"
-          />
-          
-          <TextArea 
-            label="Description"
-            id="description"
-            placeHolder="A description of the feature request."
+            value={this.state.requestSubmission.title}
+            onChange={this.handleTitleChange}
           />
           
           <Select
-            label="Client"
             id="client"
-            icon={qMarkIcon}
+            label="Client"            
             placeHolder="Select a Client"
             disabledPlaceHolder={true}
             options={this.state.clients}
@@ -121,34 +217,51 @@ export default class AddFeature extends React.Component {
           />
           
           <Select
-            label="Priority"
+            ref="priority"
             id="priority"
-            icon={qMarkIcon}
+            label="Priority"
             placeHolder={this.state.priorityPlaceHolder}
+            disabledPlaceHolder={true}
             disabled={this.state.priorityIsDisabled}
             options={this.state.priorities}
-            onChange={this.handlePrioritySelect}
+            onChange={this.handlePrioritySelect.bind(this)}
           />
           
-          <TextInput 
+          <TextInput
             type="date"
-            label="Target Date"
             id="date"
+            label="Target Date"
+            onChange={this.handleDateChange}
           />
           
           <TextInput
             type="url"
-            label="Ticket URL"
             id="url"
+            label="Ticket URL"
+            placeHolder="https://example.com"
+            onChange={this.handleUrlChange}
           />
           
           <Select
-            label="Product Area"
             id="product"
-            icon={qMarkIcon}
+            label="Product Area"
             options={this.state.products}
             optionValue="name"
             optionKey="id"
+            onChange={this.handleProductSelect}
+          />
+          
+          <TextArea
+            id="description"
+            label="Description"
+            placeHolder="A description of the feature request."
+            value={this.state.requestSubmission.description}
+            onChange={this.handleDescriptionChange}
+          />
+          
+          <SubmitButton
+            buttonText="Submit Feature Request"
+            disabled={this.state.submitDisabled}
           />
         </form>
       </section>

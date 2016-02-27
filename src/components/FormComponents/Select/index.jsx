@@ -1,7 +1,6 @@
 import React from 'react'
 import styles from './styles.css'
 import * as stylesCommon from '../common.css'
-import qMarkIcon from '../../../images/help-circle.png'
 
 // Takes an array of unique values or objects with unique keys 
 // and maps each to <select> children as <option>
@@ -48,9 +47,10 @@ export default class Select extends React.Component {
         <div className={stylesCommon.inputContainer}
           style={this.props.disabled ? {backgroundColor: 'rgb(211, 211, 211)'} : {}}
         >
-          <img src={this.props.icon} className={styles.icon} />
+          <div className={stylesCommon.icon}>&nbsp;</div>
          
           <select
+            ref="selectElement"
             id={this.props.id}
             className={styles.select}
             onChange={this.props.onChange}

@@ -1,17 +1,9 @@
 .textInput {
   composes: serif from '../../../styles-common/typography.css';
-  padding: 10px;
-  height: 6rem; 
-  width: 26rem;
-  outline: none;
-  border: none;
-  font-size: 16px;
+  composes: input from '../common.css';
+  height: 6rem;
 }
 
-@media screen and (max-width: 587px) {
-   .textInput {
-     font-size: 14px;
-     width: 18rem;
-     align-self: center;
-   }
+.container {
+  flex-grow: 2;
 }

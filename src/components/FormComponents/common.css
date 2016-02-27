@@ -15,22 +15,34 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  max-width: 29em;
   padding: 12px 0;
 }
 
-.disabled {
-  composes: transparentPurpleBackground from '../../styles-common/colors.css';
+.input {
+  margin-right:12px;
+  width: 600px;
+  padding: 10px;
+  outline: none;
+  border: none;
+  background-color: white;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 587px) {
+   .input {
+     font-size: 14px;
+     width: 18rem;
+   }
 }
 
 .icon {
-  display: none;
-  height: 36px;
-  width: 36px;
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
 }
 
 @media screen and (min-width: 586px) {
    .icon {
-     display: initial;
    }
 }

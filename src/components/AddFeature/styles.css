@@ -1,2 +1,13 @@
-.addFeature {  
+.addFeatureForm {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1400px) {
+   .addFeatureForm {
+     justify-content: center;
+   }
 }

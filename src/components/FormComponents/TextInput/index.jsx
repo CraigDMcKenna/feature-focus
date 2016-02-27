@@ -1,9 +1,23 @@
 import React from 'react'
 import styles from './styles.css'
 import * as stylesCommon from '../common.css'
-import qMarkIcon from '../../../images/help-circle.png'
 
 export default class TextInput extends React.Component {
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      value: this.props.value
+    }
+    
+    this.handleChange = this.handleChange.bind(this)
+  }
+  
+  handleChange(event) {
+    this.setState({value: event.target.value})
+    this.props.onChange(event.target.value)
+  }
+  
   render() {
     return (
       <div className={stylesCommon.container}>
@@ -12,13 +26,14 @@ export default class TextInput extends React.Component {
         </label>
        
         <div className={stylesCommon.inputContainer}>
-          <img src={qMarkIcon} className={styles.icon} />
+          <div className={stylesCommon.icon}></div>
           
-          <input type={this.props.type} 
+          <input type={this.props.type}
             id={this.props.id} 
             placeholder={this.props.placeHolder} 
             className={styles.textInput}
-            value={this.props.value}
+            value={this.state.value}
+            onChange={this.handleChange}
           />
         </div>
      </div>

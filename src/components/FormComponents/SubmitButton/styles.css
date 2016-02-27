@@ -1,0 +1,15 @@
+.button {
+  composes: greenBackground from '../../../styles-common/colors.css';
+  composes: serifBold large from '../../../styles-common/typography.css';
+  width: 100%;
+  height: 60px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: font-size 0.2s ease;
+}
+
+.button:active {
+  box-shadow: none;
+  font-size: 1em;
+} 

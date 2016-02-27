@@ -55,10 +55,9 @@ router.route('/feature-requests')
   // Create Feature Request
   .post((req, res) => {
     let request = req.body
-    
     request.creationDate = r.now()
     request.isActive = true
-    request.createdBy = 'default employee' // change to authenticated user when login is emplemented
+    request.createdBy = 'default employee' // change to authenticated user when login is implemented
     
     // Insert
     r.table('feature_requests')
@@ -69,7 +68,6 @@ router.route('/feature-requests')
           console.log('Error: document not inserted!')
         } else {
           res.json(result.changes[0].new_val)
-          console.log(result)
           return // generated id
         }
       })
