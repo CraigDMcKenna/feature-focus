@@ -26,7 +26,7 @@
   * ~~**Product Area**: A selection list of product areas (use 'Policies', 'Billing', 'Claims', 'Reports')~~
   
 ### 6. High Priority Features
-  * Database
+  * ~~Database~~
   * Login/Sessions
   
 ### 7. Nice to Have

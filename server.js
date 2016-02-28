@@ -146,9 +146,6 @@ router.route('/products')
 // *      Server      * 
 // ********************
 
-// static
-app.use(express.static('public'))
-
 const IS_DEV = process.env.npm_lifecycle_event === 'start'
 
 // IS_DEV ? dev server : prod server
@@ -168,6 +165,8 @@ if (IS_DEV) {
   
   app.listen(3000, '0.0.0.0', () => console.log('App available at localhost:3000'))
 } else {
+  
+  app.use(express.static('public'))
   
   app.listen(process.env.PORT)
 }

@@ -4,15 +4,13 @@ import * as stylesCommon from '../common.css'
 
 export default class SubmitButton extends React.Component {
   render() {
-    let activeStateStyle = this.props.disabled ? {
-      backgroundColor: 'rgb(211, 211, 211)',
-      cursor: 'text'
-    } : {}
+    let buttonClass = this.props.disabled ?
+      styles.buttonDisabled :
+      styles.button
      
     return (
       <button
-        type="submit" className={styles.button}
-        style={activeStateStyle}
+        type="submit" className={buttonClass}
         disabled={this.props.disabled} 
       >
         {this.props.buttonText}

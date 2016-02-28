@@ -36,7 +36,12 @@ export default class Select extends React.Component {
               {children}
             </option>
         )
-    })    
+    }) 
+    
+    let inputContainerClass = this.props.disabled ?
+      stylesCommon.inputContainerDisabled :
+      stylesCommon.inputContainer
+    
     
     return (
       <div className={stylesCommon.container}>
@@ -44,9 +49,7 @@ export default class Select extends React.Component {
           {this.props.label}
         </label>
        
-        <div className={stylesCommon.inputContainer}
-          style={this.props.disabled ? {backgroundColor: 'rgb(211, 211, 211)'} : {}}
-        >
+        <div className={inputContainerClass}>
           <div className={stylesCommon.icon}>&nbsp;</div>
          
           <select

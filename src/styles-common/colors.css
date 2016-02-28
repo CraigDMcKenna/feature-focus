@@ -18,6 +18,14 @@
   background-color: rgb(241, 196, 15);
 }
 
+.grayBackground {
+  background-color: rgb(211, 211, 211);
+}
+
 .darkGray {
   color: rgb(89, 89, 89);
+}
+
+.red {
+  color: rgb(192, 57, 43);
 }
