@@ -168,6 +168,8 @@ if (IS_DEV) {
   app.listen(3000, '0.0.0.0', () => console.log('App available at localhost:3000'))
 } else {
   
+  app.use(express.static('public'))
+  
   app.listen(process.env.PORT)
 }
 

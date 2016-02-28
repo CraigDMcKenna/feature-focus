@@ -1,0 +1,20 @@
+.heading {
+  composes: serifBold larger from '../../styles-common/typography.css';
+  composes: darkGray from '../../styles-common/colors.css';
+  margin: 48px 0 0;
+}
+
+.error {
+  composes: serifBold large from '../../styles-common/typography.css';
+  composes: red from '../../styles-common/colors.css';
+  text-align: center;
+}
+
+.login {
+  display: flex;
+  height: 100%;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}

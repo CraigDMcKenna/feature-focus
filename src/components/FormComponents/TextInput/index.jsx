@@ -15,7 +15,7 @@ export default class TextInput extends React.Component {
   
   handleChange(event) {
     this.setState({value: event.target.value})
-    this.props.onChange(event.target.value)
+    this.props.onChange(event.target.value, this.props.id)
   }
   
   render() {

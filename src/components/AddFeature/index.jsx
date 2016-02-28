@@ -4,7 +4,7 @@
 
 
 import React from 'react'
-import request from 'superagent'
+import Modal from '../Modal'
 import TextInput from '../FormComponents/TextInput'
 import Select from '../FormComponents/Select'
 import TextArea from '../FormComponents/TextArea'
@@ -189,6 +189,8 @@ export default class AddFeature extends React.Component {
   }
   
   render() {
+    let modalContent = 'Hello!'
+    
     return (
       <section>
         <form
@@ -224,7 +226,7 @@ export default class AddFeature extends React.Component {
             disabledPlaceHolder={true}
             disabled={this.state.priorityIsDisabled}
             options={this.state.priorities}
-            onChange={this.handlePrioritySelect.bind(this)}
+            onChange={this.handlePrioritySelect}
           />
           
           <TextInput
