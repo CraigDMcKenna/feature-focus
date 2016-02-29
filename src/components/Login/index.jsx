@@ -63,7 +63,7 @@ export default class Login extends React.Component {
                 type="email"
                 id="email"
                 label="Email"
-                placeHolder="joe@example.com"
+                placeHolder="you@britecore.com"
                 value={this.state.email}
                 onChange={this.handleChange.bind(this)}
             />
@@ -71,7 +71,7 @@ export default class Login extends React.Component {
                 type="password"
                 id="password"
                 label="Password"
-                placeHolder="password1"
+                placeHolder="password"
                 value={this.state.password}
                 onChange={this.handleChange.bind(this)}
             />

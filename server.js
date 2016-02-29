@@ -1,5 +1,6 @@
 import express from 'express'
 import r from 'rethinkdb'
+import nJwt from 'njwt'
 import bodyParser from 'body-parser'
 import config from './config'
 
@@ -22,6 +23,8 @@ function createConnection(req, res, next) {
 // *      API      *
 // *****************
 
+app.set('secret', config.secret)
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -29,6 +32,94 @@ let router = express.Router()
 
 // All API routes on '/api' path
 app.use('/api', router)
+
+
+// Auth
+router.route('/auth')
+
+  .post((req, res) => {
+
+    r.table('users')
+     .getAll(req.body.email, {index: 'email'})
+     .getField('password')
+     .contains(req.body.password)
+     .run(res._rdbConn)
+     .then((result) => {
+       
+       if (!result) {
+         res.json({success: false, message: 'Authentication failed. Invalid email and/or password.'})
+       } else {
+         
+         r.table('users')
+         .getAll(req.body.email, {index: 'email'})
+         .getField('id')
+         .run(res._rdbConn)
+         .then((cursor) => cursor.toArray())
+         .then((result) => {
+
+           let claims = {
+             //iss: 'localhost',
+             sub: `users/${result[0]}`,
+             scope: 'user'
+           }
+         
+           let jwt = nJwt.create(claims, app.get('secret'))
+           // for now set no expiration on token
+           jwt.setExpiration()
+           let token = jwt.compact()
+           
+           res.json({
+             success: true,
+             message: 'Authentication successful.',
+             user: result[0],
+             token: token
+           })
+           
+         })
+       }
+     }) 
+   })
+   
+
+// Guard remaining routes
+router.use((req, res, next) => {
+  let token = req.headers['x-access-token'] || req.body.token || req.query.token
+
+  if (token) {
+    nJwt.verify(token, app.get('secret'), (err, verifiedJwt) => {
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' })
+      } else {
+        req.verifiedJwt = true
+        next()
+      }
+      
+    })
+  } else {
+    return res.status(403).send({ 
+        success: false, 
+        message: 'No token provided.' 
+    })
+  }  
+})
+
+    
+// Users
+router.route('/users')
+  
+  .get((req, res) => {
+    
+    r.table('users')
+      .orderBy('name')
+      .run(res._rdbConn)
+      .then((cursor) => {
+        return cursor.toArray()
+      })
+      .then((result) => {
+        res.json(result)
+      })
+  })
+
 
 // Clients
 router.route('/clients')
@@ -95,7 +186,7 @@ router.route('/feature-requests')
 
   // Get all Feature Requests
   .get((req, res) => {
-    
+
     r.table('feature_requests')
     .run(res._rdbConn)
     .then((cursor) => {

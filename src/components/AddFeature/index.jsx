@@ -18,7 +18,10 @@ export default class AddFeature extends React.Component {
   constructor() {
     super()
     
-    this.state = { 
+    this.state = {
+      clientsLoading: true,
+      prioritiesLoading: false,
+      productsLoading: true,
       clients: [], 
       products: [],
       priorities: [],
@@ -54,16 +57,20 @@ export default class AddFeature extends React.Component {
   loadClients() {
     clients.getClients((response) => {
       this.setState({clients: response})
+      this.setState({clientsLoading: false})
     })
   }
   
   loadProducts() {
     products.getProducts((response) => {
       this.setState({products: response})
+      this.setState({productsLoading: false})
     })
   }
   
   loadPriorities(clientId) {
+    this.setState({prioritiesLoading: true})
+    
     featureRequests.getRequests(clientId, (response) => {
       let values = []
           
@@ -76,6 +83,7 @@ export default class AddFeature extends React.Component {
       }
       
       this.setState({priorities: values})
+      this.setState({prioritiesLoading: false})
     })
   }
   
@@ -208,6 +216,7 @@ export default class AddFeature extends React.Component {
           />
           
           <Select
+            loading={this.state.clientsLoading}
             id="client"
             label="Client"            
             placeHolder="Select a Client"
@@ -219,6 +228,7 @@ export default class AddFeature extends React.Component {
           />
           
           <Select
+            loading={this.props.prioritiesLoading}
             ref="priority"
             id="priority"
             label="Priority"
@@ -245,8 +255,11 @@ export default class AddFeature extends React.Component {
           />
           
           <Select
+            loading={this.state.productsLoading}
             id="product"
             label="Product Area"
+            placeHolder="Select a Pruduct"
+            disabledPlaceHolder={true}
             options={this.state.products}
             optionValue="name"
             optionKey="id"

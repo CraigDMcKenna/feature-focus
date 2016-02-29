@@ -43,7 +43,7 @@ in your browser.
  
 Webpack will watch the ```src/``` files and serve changes in 
 real time. Typically you will see any changes happen
-automatically withoud the need to refresh your browser.
+automatically without the need to refresh your browser.
 
 Some changes to the source files may require manual browser
 refresh. 

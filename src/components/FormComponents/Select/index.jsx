@@ -41,7 +41,10 @@ export default class Select extends React.Component {
     let inputContainerClass = this.props.disabled ?
       stylesCommon.inputContainerDisabled :
       stylesCommon.inputContainer
-    
+      
+    let iconClass = this.props.loading ?
+      stylesCommon.iconLoading :
+      stylesCommon.icon
     
     return (
       <div className={stylesCommon.container}>
@@ -50,14 +53,14 @@ export default class Select extends React.Component {
         </label>
        
         <div className={inputContainerClass}>
-          <div className={stylesCommon.icon}>&nbsp;</div>
+          <div className={iconClass}>&nbsp;</div>
          
           <select
             ref="selectElement"
             id={this.props.id}
             className={styles.select}
             onChange={this.props.onChange}
-            disabled={this.props.disabled}
+            disabled={this.props.disabled || this.props.loading}
           >
             {placeHolder}          
             {options}
