@@ -14,6 +14,7 @@ export default {
     
     request
       .get(url)
+      .set('x-access-token', localStorage.token)
       .end((err, res) => {
         if (err) console.log(err)
         
@@ -26,6 +27,7 @@ export default {
       
       request
         .post(url)
+        .set('x-access-token', localStorage.token)
         .send(submission)
         .end((err, res) => {
           if (err) console.log(err)

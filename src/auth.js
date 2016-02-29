@@ -1,4 +1,6 @@
-module.exports = {
+import request from 'superagent'
+
+export default {
   login(email, pass, cb) {
     cb = arguments[arguments.length - 1]
     if (localStorage.token) {
@@ -6,7 +8,7 @@ module.exports = {
       this.onChange(true)
       return
     }
-    pretendRequest(email, pass, (res) => {
+    authenticate(email, pass, (res) => {
       if (res.authenticated) {
         localStorage.token = res.token
         if (cb) cb(true)
@@ -35,15 +37,22 @@ module.exports = {
   onChange() {}
 }
 
-function pretendRequest(email, pass, cb) {
-  setTimeout(() => {
-    if (email === 'joe@example.com' && pass === 'password1') {
-      cb({
-        authenticated: true,
-        token: Math.random().toString(36).substring(7)
-      })
-    } else {
-      cb({ authenticated: false })
-    }
-  }, 0)
+function authenticate (email, pass, callback) {     
+  let body = {email: email, password: pass}
+
+  request
+    .post('api/auth')
+    .send(body)
+    .end((err, res) => { 
+      let result = JSON.parse(res.text)
+              
+      if (result.success) {
+        callback({
+          authenticated: true,
+          token: result.token
+        })
+      } else {
+        callback({ authenticated: false} )
+      }
+  })
 }

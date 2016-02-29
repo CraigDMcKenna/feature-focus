@@ -10,8 +10,8 @@
  
 ### 3. ~~Deploy to AWS~~
 
-### 4. README.md that contains the detailed instructions for running app.
-  * ongoing
+### 4. README.md that contains the detailed instructions for running/installing app.
+  * needs update
   
 ### 5. Must Have Features (form fields)
   * ~~**Title**: A short, descriptive name of the feature request.~~
@@ -27,7 +27,7 @@
   
 ### 6. High Priority Features
   * ~~Database~~
-  * Login/Sessions
+  * ~~Login~~ (web token based login)
   
 ### 7. Nice to Have
   * Dashboard

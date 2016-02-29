@@ -43,9 +43,16 @@
 
 .icon {
   display: inline-flex;
-  width: 48px;
-  height: 48px;
-  margin-right: 12px;
+  width: 36px;
+  height: 36px;
+  margin: 0 12px;
+}
+
+.iconLoading {
+  composes: icon;
+  background-image: url('../../images/loadingicon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 @media screen and (min-width: 586px) {
