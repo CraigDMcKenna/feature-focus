@@ -1,0 +1,22 @@
+ .dropDownWrapper {
+  composes:  darkGrayBackground from '../../styles-common/colors.css';
+  display: flex;
+  justify-content: center;
+  height: 0px;
+  transition: height .2s ease;
+ }
+
+.dropDownNav {
+  flex-grow: 1;
+  justify-content: center;
+  max-width: 1400px;
+}
+
+.heading {
+  composes: serif large from '../../styles-common/typography.css';
+  display: flex;
+  margin: 0;
+  align-items: center;
+  letter-spacing: .4em;
+  color: white;
+}

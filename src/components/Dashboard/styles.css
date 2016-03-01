@@ -1,0 +1,27 @@
+.heading {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1400px) {
+   .heading {
+     justify-content: center;
+   }
+}
+
+.data {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1400px) {
+   .data {
+     justify-content: center;
+   }
+}

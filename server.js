@@ -45,41 +45,44 @@ router.route('/auth')
      .contains(req.body.password)
      .run(res._rdbConn)
      .then((result) => {
-       
+
        if (!result) {
          res.json({success: false, message: 'Authentication failed. Invalid email and/or password.'})
        } else {
-         
+
          r.table('users')
          .getAll(req.body.email, {index: 'email'})
-         .getField('id')
+         .pluck('name', 'id')
          .run(res._rdbConn)
          .then((cursor) => cursor.toArray())
          .then((result) => {
+           let user = result[0]
 
            let claims = {
              //iss: 'localhost',
-             sub: `users/${result[0]}`,
+             sub: `users/${user.id}`,
              scope: 'user'
            }
-         
+
            let jwt = nJwt.create(claims, app.get('secret'))
            // for now set no expiration on token
            jwt.setExpiration()
            let token = jwt.compact()
-           
+
            res.json({
              success: true,
              message: 'Authentication successful.',
-             user: result[0],
+             user_id: user.id,
+             user_firstname: user.name.first,
+             user_lastname: user.name.last,
              token: token
            })
-           
+
          })
        }
-     }) 
+     })
    })
-   
+
 
 // Guard remaining routes
 router.use((req, res, next) => {
@@ -93,22 +96,22 @@ router.use((req, res, next) => {
         req.verifiedJwt = true
         next()
       }
-      
+
     })
   } else {
-    return res.status(403).send({ 
-        success: false, 
-        message: 'No token provided.' 
+    return res.status(403).send({
+        success: false,
+        message: 'No token provided.'
     })
-  }  
+  }
 })
 
-    
+
 // Users
 router.route('/users')
-  
+
   .get((req, res) => {
-    
+
     r.table('users')
       .orderBy('name')
       .run(res._rdbConn)
@@ -125,7 +128,7 @@ router.route('/users')
 router.route('/clients')
 
   .get((req, res) => {
-    
+
     r.table('clients')
       .orderBy('name')
       .run(res._rdbConn)
@@ -146,8 +149,8 @@ router.route('/feature-requests')
     let request = req.body
     request.creationDate = r.now()
     request.isActive = true
-    request.createdBy = 'default employee' // change to authenticated user when login is implemented
-    
+    //request.createdBy = 'default employee' // change to authenticated user when login is implemented
+
     // Insert
     r.table('feature_requests')
       .insert(request, {returnChanges: true})
@@ -180,28 +183,47 @@ router.route('/feature-requests')
                 priority: r.row('priority').add(1)
               })
               .run(res._rdbConn)
-          )       
+          )
       )
   })
 
-  // Get all Feature Requests
+  // Get all Feature Requests equal join clients and products without without redundant ids
   .get((req, res) => {
 
     r.table('feature_requests')
-    .run(res._rdbConn)
-    .then((cursor) => {
+      .eqJoin('clientId', r.table('clients'))
+      .without({right: 'id'})
+      .zip()
+      .eqJoin('productId', r.table('products'))
+      .without({right: 'id'})
+      .zip()
+      .run(res._rdbConn)
+      .then((cursor) => {
       return cursor.toArray()
     })
     .then((result) => {
       res.json(result)
     })
   })
-  
-// Feature Requests By Client id
-router.route('/feature-requests/:id') 
+
+// Single Feature Request by id
+router.route('/feature-requests/request:id')
 
   .get((req, res) => {
-    
+
+    r.table('feature_requests')
+      .get(req.params.id)
+      .run(res._rdbConn)
+      .then((result) => {
+        res.json(result)
+      })
+  })
+
+// Feature Requests By Client id
+router.route('/feature-requests/client:id')
+
+  .get((req, res) => {
+
     r.table('feature_requests')
       .indexWait('clientId')
       .run(res._rdbConn)
@@ -214,14 +236,34 @@ router.route('/feature-requests/:id')
           .then((result) => {
             res.json(result)
           })
-      )
+    )
+  })
+
+// Feature Requests By User id
+router.route('/feature-requests/user:id')
+
+  .get((req, res) => {
+
+    r.table('feature_requests')
+      .indexWait('createdBy')
+      .run(res._rdbConn)
+      .then(
+        r.table('feature_requests')
+          .getAll(req.params.id, {index: 'createdBy'})
+          .run(res._rdbConn).then((cursor) => {
+            return cursor.toArray()
+          })
+          .then((result) => {
+            res.json(result)
+          })
+    )
   })
 
 // Products
 router.route('/products')
 
   .get((req, res) => {
-    
+
     r.table('products')
       .run(res._rdbConn)
       .then((cursor) => {
@@ -234,7 +276,7 @@ router.route('/products')
 
 
 // ********************
-// *      Server      * 
+// *      Server      *
 // ********************
 
 const IS_DEV = process.env.npm_lifecycle_event === 'start'
@@ -253,12 +295,12 @@ if (IS_DEV) {
   }))
 
   app.use(require('webpack-hot-middleware')(compiler))
-  
+
   app.listen(3000, '0.0.0.0', () => console.log('App available at localhost:3000'))
 } else {
-  
+
   app.use(express.static('public'))
-  
+
   app.listen(process.env.PORT)
 }
 

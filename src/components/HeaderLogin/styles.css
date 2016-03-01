@@ -1,13 +1,11 @@
- .header {
+ .header { 
   composes: purpleBackground from '../../styles-common/colors.css';
   display: flex;
   justify-content: center;
   padding: 12px;
  }
-
+ 
 .navBar {
-  display: flex;
-  flex-direction: row;
   flex-grow: 1;
   justify-content: flex-start;
   max-width: 1400px;
@@ -25,19 +23,4 @@
   margin-right: 18px;
   height: 40px;
   width: 40px;
-}
-
-.nav {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 100;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.link {
-  composes: serifBold from '../../styles-common/typography.css';
-  color: white;
-  text-decoration: none;
-  margin-right: 24px;
 }
