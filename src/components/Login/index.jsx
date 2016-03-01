@@ -1,6 +1,6 @@
 import auth from '../../auth'
 import React from 'react'
-import Header from '../Header'
+import HeaderLogin from '../HeaderLogin'
 import TextInput from '../FormComponents/TextInput'
 import SubmitButton from '../FormComponents/SubmitButton'
 import styles from './styles.css'
@@ -8,19 +8,19 @@ import styles from './styles.css'
 export default class Login extends React.Component {
   constructor(context) {
     super(context);
-    
+
     context.router
-    
+
     this.state = {
       error: false,
       email: '',
       password: ''
-    }  
+    }
   }
-  
+
   handleChange(value, id) {
     let stateObject = this.state
-    
+
     stateObject[id] = value
     this.setState(stateObject)
   }
@@ -48,16 +48,16 @@ export default class Login extends React.Component {
   render() {
     return (
       <div>
-        <Header />  
+        <HeaderLogin />
         <div className={styles.login}>
           <h1 className={styles.heading}>Login</h1>
-          
+
           {this.state.error && (
             <p className={styles.error}>
               Invalid username or password. Try again.
             </p>
           )}
-            
+
           <form onSubmit={this.handleSubmit.bind(this)}>
             <TextInput
                 type="email"
@@ -84,7 +84,7 @@ export default class Login extends React.Component {
       </div>
     )
   }
-} 
+}
 
 Login.contextTypes = {
   router: React.PropTypes.object.isRequired

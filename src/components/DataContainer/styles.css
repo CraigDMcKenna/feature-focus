@@ -1,0 +1,102 @@
+.wrapper {
+  margin-bottom: 24px;
+}
+
+.heading {
+  composes: serifBold large from '../../styles-common/typography.css';
+  composes: darkGray from '../../styles-common/colors.css';
+  display: block;
+  padding-bottom: 12px;
+  padding-top: 12px;
+}
+
+.container {
+  composes: purpleBackground from '../../styles-common/colors.css';
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 12px;
+  transition: background-color 0.4s ease;
+}
+
+.containerDisabled {
+  composes: grayBackground from '../../styles-common/colors.css';
+  composes: container;
+}
+
+.menuBar {
+  display: flex;
+  width: 36px;
+  height: 36px;
+  margin: 0 12px;
+}
+
+.menuBarLoading {
+
+}
+
+.tableWrapper {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin: 4px;
+  resize: both;
+  width: 600px;
+  height: 180px;
+  padding: 10px 0 0;
+  outline: none;
+  border: none;
+  background-color: white;
+}
+
+.data {
+  width: 100%;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 587px) {
+   .data {
+     font-size: 14px;
+     width: 18rem;
+   }
+}
+
+.link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  padding: 12px;
+}
+
+.link {
+  composes: serifBold from '../../styles-common/typography.css';
+  composes: grayPurple from '../../styles-common/colors.css';
+}
+
+.link:hover {
+  color: white;
+}
+
+.listItem {
+  list-style: none;
+}
+
+.listItemEven {
+  composes: listItem;
+  composes: lightPurpleBackground from '../../styles-common/colors.css';
+}
+
+.listItemOdd {
+  composes: listItem;
+  background-color: white;
+}
+
+.listItemOdd:hover a, .listItemEven:hover a{
+  background-color: rgb(116, 88, 127);
+  color: white;
+}
+
+.item {
+  margin: 0;
+  padding: 0;
+}

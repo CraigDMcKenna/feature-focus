@@ -1,8 +1,11 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import { Router, Route, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 import App from './components/App'
+import Request from './components/Request'
 import Login from './components/Login'
+import Dashbord from './components/Dashboard'
+import AddFeature from './components/AddFeature'
 import styles from './styles-common/layout.css'
 import auth from './auth'
 
@@ -23,7 +26,12 @@ function requireAuth(nextState, replace) {
 
 ReactDom.render((
   <Router history={hashHistory}>
-    <Route path="/" component={App} onEnter={requireAuth}/>
+    <Route path="/" component={App} onEnter={requireAuth}>
+      <IndexRoute component={Dashbord} />
+      <Route path="request/:id" component={Request} />
+      <Route path="/new-request" component={AddFeature} />
+    </Route>
+
     <Route path="/login" component={Login} />
   </Router>
 ), appSection)
