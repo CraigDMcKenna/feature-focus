@@ -4,6 +4,9 @@ import styles from './styles.css'
 import logo from '../../images/ff-logo.png'
 
 export default class Header extends React.Component {
+  constructor() {
+    super()
+  }
   render() {
     return (
       <div>
@@ -13,14 +16,27 @@ export default class Header extends React.Component {
               <img src={logo} className={styles.logo} />
               Feature Focus
             </section>
-            <section className={styles.nav}>
-              <Link to="/" className={styles.link}>
-                Home
-              </Link>
-              <Link to="new-request" className={styles.link}>
-                New
-              </Link>
-            </section>
+            <ul className={styles.nav}>
+              <li className={styles.navLi}>
+                {this.props.location !== '/' &&
+                  <Link to="/" className={styles.link}>
+                    Dashboard
+                  </Link>
+                }
+              </li>
+              <li className={styles.navLi}>
+                {this.props.location !== '/new-request' &&
+                  <Link to="new-request" className={styles.link}>
+                    New
+                  </Link>
+                }
+              </li>
+              <li className={styles.user}>
+              </li>
+              <li className={styles.menu}>
+              </li>
+
+            </ul>
           </nav>
         </header>
         {this.props.children}

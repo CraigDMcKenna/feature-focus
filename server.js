@@ -111,6 +111,14 @@ router.use((req, res, next) => {
 })
 
 
+// Auth verify (for client side routing)
+router.route('/auth/validate')
+
+  .get((req, res) => {
+    res.json({ success: true, message: 'Token valid.' })
+  })
+
+
 // Users
 router.route('/users')
 
@@ -189,7 +197,7 @@ router.route('/feature-requests')
       )
   })
 
-  // Get all Feature Requests equal join clients and products without without redundant ids
+  // Get all Feature Requests equal join clients and products without redundant ids
   .get((req, res) => {
 
     r.table('feature_requests')
@@ -208,13 +216,20 @@ router.route('/feature-requests')
     })
   })
 
-// Single Feature Request by id
+// Single Feature Request by id, merge all ids
 router.route('/feature-requests/request:id')
 
   .get((req, res) => {
 
     r.table('feature_requests')
       .get(req.params.id)
+      .merge((item) => {
+        return {
+          createdByName: r.table('users').get(item('createdBy')).pluck('name'),
+          clientName: r.table('clients').get(item('clientId')).pluck('name'),
+          productName: r.table('products').get(item('productId')).pluck('productName'),
+        }
+      })
       .run(res._rdbConn)
       .then((result) => {
         res.json(result)
@@ -241,7 +256,7 @@ router.route('/feature-requests/client:id')
     )
   })
 
-// Feature Requests By User id
+// Feature Requests By User id eqaual join with clients without redundant ids
 router.route('/feature-requests/user:id')
 
   .get((req, res) => {
@@ -251,7 +266,10 @@ router.route('/feature-requests/user:id')
       .run(res._rdbConn)
       .then(
         r.table('feature_requests')
-          .getAll(req.params.id, {index: 'createdBy'})
+          .eqJoin('clientId', r.table('clients'))
+          .without({right: 'id'})
+          .zip()
+          .filter({'createdBy': req.params.id})
           .run(res._rdbConn).then((cursor) => {
             return cursor.toArray()
           })
@@ -260,6 +278,7 @@ router.route('/feature-requests/user:id')
           })
     )
   })
+
 
 // Products
 router.route('/products')

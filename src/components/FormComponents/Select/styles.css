@@ -1,4 +1,4 @@
 .select {
-  composes: serif from '../../../styles-common/typography.css';
+  composes: sans from '../../../styles-common/typography.css';
   composes: input from '../common.css';
 }

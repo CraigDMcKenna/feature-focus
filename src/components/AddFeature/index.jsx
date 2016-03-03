@@ -197,8 +197,6 @@ export default class AddFeature extends React.Component {
   }
 
   render() {
-    let modalContent = 'Hello!'
-
     return (
       <section>
         <form

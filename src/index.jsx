@@ -16,7 +16,7 @@ appSection.id = 'root'
 document.body.insertBefore(appSection, document.body.firstChild);
 
 function requireAuth(nextState, replace) {
-  if (!auth.loggedIn()) {
+  if (!auth.loggedIn() || !auth.activeUser()) {
     replace({
       pathname: '/login',
       state: { nextPathname: nextState.location.pathname }

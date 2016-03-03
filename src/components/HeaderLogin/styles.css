@@ -1,10 +1,10 @@
- .header { 
+ .header {
   composes: purpleBackground from '../../styles-common/colors.css';
   display: flex;
   justify-content: center;
   padding: 12px;
  }
- 
+
 .navBar {
   flex-grow: 1;
   justify-content: flex-start;
@@ -12,7 +12,7 @@
 }
 
 .logoSection {
-  composes: serif large from '../../styles-common/typography.css';
+  composes: sans large from '../../styles-common/typography.css';
   display: flex;
   align-items: center;
   letter-spacing: .4em;

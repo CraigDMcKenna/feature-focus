@@ -1,6 +1,6 @@
 .button {
   composes: greenBackground from '../../../styles-common/colors.css';
-  composes: serifBold large from '../../../styles-common/typography.css';
+  composes: sansBold large from '../../../styles-common/typography.css';
   margin-top: 12px;
   width: 100%;
   height: 60px;
@@ -19,4 +19,4 @@
 .button:active {
   box-shadow: none;
   font-size: 1em;
-} 
+}

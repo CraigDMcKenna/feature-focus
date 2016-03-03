@@ -13,7 +13,7 @@
 }
 
 .heading {
-  composes: serif large from '../../styles-common/typography.css';
+  composes: sans large from '../../styles-common/typography.css';
   display: flex;
   margin: 0;
   align-items: center;

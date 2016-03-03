@@ -6,8 +6,8 @@ import SubmitButton from '../FormComponents/SubmitButton'
 import styles from './styles.css'
 
 export default class Login extends React.Component {
-  constructor(context) {
-    super(context);
+  constructor(props, context) {
+    super(props, context);
 
     context.router
 

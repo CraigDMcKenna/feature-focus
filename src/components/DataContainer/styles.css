@@ -3,7 +3,7 @@
 }
 
 .heading {
-  composes: serifBold large from '../../styles-common/typography.css';
+  composes: sansBold large from '../../styles-common/typography.css';
   composes: darkGray from '../../styles-common/colors.css';
   display: block;
   padding-bottom: 12px;
@@ -69,7 +69,7 @@
 }
 
 .link {
-  composes: serifBold from '../../styles-common/typography.css';
+  composes: sansBold from '../../styles-common/typography.css';
   composes: grayPurple from '../../styles-common/colors.css';
 }
 
