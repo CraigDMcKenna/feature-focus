@@ -14,7 +14,7 @@
 }
 
 .logoSection {
-  composes: serif large from '../../styles-common/typography.css';
+  composes: sans large from '../../styles-common/typography.css';
   display: flex;
   align-items: center;
   letter-spacing: .4em;
@@ -28,16 +28,53 @@
 }
 
 .nav {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 100;
+  display: inline-flex;
+  margin: 0;
+  flex-grow: 1;
   align-items: center;
   justify-content: flex-end;
 }
 
+.navLi {
+  list-style: none;
+}
+
 .link {
-  composes: serifBold from '../../styles-common/typography.css';
+  composes: sansBold from '../../styles-common/typography.css';
   color: white;
   text-decoration: none;
   margin-right: 24px;
 }
+
+.user {
+  list-style: none;
+  height: 40px;
+  width: 40px;
+  background-image: url('../../images/usericon.svg');
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.menu {
+  display: none;
+  list-style: none;
+  height: 40px;
+  width: 40px;
+  background-image: url('../../images/menuicon.svg');
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+@media screen and (max-width: 740px) {
+  .menu {
+    display: initial;
+  }
+  .user {
+    display: none;
+  }
+  .navLi {
+    display: none;
+  }
+}
+

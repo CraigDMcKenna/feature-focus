@@ -1,11 +1,15 @@
-.serif {
+.sans {
   font-family: 'Noto Sans', sans-serif;
   letter-spacing: .2em;
 }
 
-.serifBold {
-  composes: serif;
+.sansBold {
+  composes: sans;
   font-weight: 700;
+}
+
+.bodyText {
+  font-family: helvetica, arial, sans-serif;
 }
 
 .large {
@@ -14,4 +18,9 @@
 
 .larger {
   font-size: 1.6em;
+}
+
+.pageTitle {
+  composes: darkGray from './colors.css';
+  composes: sansBold larger;
 }

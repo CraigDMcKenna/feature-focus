@@ -1,0 +1,226 @@
+.headerRow {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.titleContainer {
+  min-width: 400px;
+  flex-grow: 1;
+}
+
+.follow {
+  float: left;
+  width: 40px;
+  height: 40px;
+  margin: 0 12px 0 0;
+}
+
+.follow:hover:after {
+  margin-left: 12px;
+  padding: 4px;
+  background-color: rgb(116, 88, 127);
+  font-size: 16px;
+  color: white;
+  content: 'follow';
+}
+
+.follow:active:after {
+  display: none;
+}
+
+.notFollowing {
+  composes: follow;
+  background-image: url('../../images/star.svg');
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.title {
+  margin: 0 0 0 52px;
+  composes: sans from '../../styles-common/typography.css';
+  composes: purple from '../../styles-common/colors.css';
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.title:hover:after {
+  margin-left: 12px;
+  padding: 4px;
+  background-color: rgb(116, 88, 127);
+  font-size: 16px;
+  color: white;
+  content: 'edit';
+}
+
+.title:active:after {
+  display: none;
+}
+
+.priority {
+  composes: pageTitle from '../../styles-common/typography.css';
+  margin: 8px 0 0 52px;
+}
+
+.priorityNumber {
+  composes: purple from '../../styles-common/colors.css';
+  margin-left: 12px;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+
+.priorityNumber:hover:after {
+  margin-left: 12px;
+  padding: 4px;
+  background-color: rgb(116, 88, 127);
+  font-size: 16px;
+  color: white;
+  content: 'edit';
+}
+
+.priorityNumber:active:after {
+  display: none;
+}
+
+.ownerContainer {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 200px;
+}
+
+.ownerText {
+  composes: sansBold from '../../styles-common/typography.css';
+  composes: darkGray from '../../styles-common/colors.css';
+  text-align: right;
+  margin: 0 12px;
+}
+
+.link {
+  composes: sansBold from '../../styles-common/typography.css';
+  composes: purple from '../../styles-common/colors.css';
+  text-decoration: none;
+}
+
+.ownerImage {
+  height: 100px;
+  width: 100px;
+}
+
+.requestBody {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.requestLabels {
+  min-width: 100px;
+  flex-basis: 20%;
+  flex-wrap: nowrap;
+  padding-left: 0;
+  padding-right: 12px;
+  border-right: 2px solid rgb(242, 242, 242);
+}
+
+.requestItems {
+  padding: 0 12px;
+}
+
+.listStyle {
+  composes: sansBold from '../../styles-common/typography.css';
+  display: flex;
+  postition: relative;
+  height: 60px;
+  align-items: flex-end;
+  list-style: none;
+  cursor: pointer;
+}
+
+.requestLabelsItem {
+  composes: darkGray from '../../styles-common/colors.css';
+  composes: listStyle;
+  justify-content: flex-end;
+  align-self: flex-end;
+}
+
+.requestItemsItem {
+  composes: purple from '../../styles-common/colors.css';
+  composes: large from '../../styles-common/typography.css';
+  composes: listStyle;
+  list-style: none;
+  border-bottom: 2px solid rgb(211, 211, 211);
+}
+
+.requestItemsItem:hover:after {
+  position: absolute;
+  margin-left: 12px;
+  padding: 4px;
+  background-color: rgb(116, 88, 127);
+  font-size: 16px;
+  color: white;
+  content: 'edit';
+}
+
+.requestItemsItem:active:after {
+  display: none;
+}
+
+.historyContainer {
+  composes: sans from '../../styles-common/typography.css';
+  margin-top: 40px;
+  flex-grow: 1;
+  border-left: 2px solid rgb(242, 242, 242);
+
+}
+
+.historyItem {
+  composes: bodyText from '../../styles-common/typography.css';
+  list-style: none;
+}
+
+.historyDate {
+  composes: sans from '../../styles-common/typography.css';
+  composes: darkGray from '../../styles-common/colors.css';
+  font-size: 18px;
+  margin-top: 0;
+}
+
+@media screen and (max-width: 1000px) {
+  .ownerContainer {
+    margin: 24px 0 0 52px;
+    justify-content: flex-start;
+  }
+  .ownerImage {
+    order: 1;
+  }
+  .ownerText {
+    order: 2;
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .requestLabels {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .requestLabels {
+    font-size: 10px;
+  }
+  .requestItems {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .requestLabels {
+    font-size: 9px;
+  }
+  .requestItems {
+    font-size: 12px;
+  }
+}
