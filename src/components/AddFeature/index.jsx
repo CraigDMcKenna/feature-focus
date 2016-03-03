@@ -32,7 +32,8 @@ export default class AddFeature extends React.Component {
         targetDate: '',
         ticketUrl: '',
         productId: '',
-        createdBy: localStorage.user_id
+        createdBy: localStorage.user_id,
+        owner: localStorage.user_id
       },
       submissionReady: false,
       submitDisabled: true,
@@ -98,7 +99,7 @@ export default class AddFeature extends React.Component {
       }
     }
 
-    if (completeFieldsCount === 8) {
+    if (completeFieldsCount === 9) {
       this.setState({submissionReady: true})
       this.setState({submitDisabled: false})
     } else {

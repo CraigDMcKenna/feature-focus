@@ -157,7 +157,6 @@ router.route('/feature-requests')
     let request = req.body
     request.creationDate = r.now()
     request.isActive = true
-    //request.createdBy = 'default employee' // change to authenticated user when login is implemented
 
     // Insert
     r.table('feature_requests')

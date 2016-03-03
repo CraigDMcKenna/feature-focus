@@ -7,7 +7,7 @@
 
 .titleContainer {
   min-width: 400px;
-  flex-grow: 1;
+  max-width: 800px;
 }
 
 .follow {
@@ -88,6 +88,7 @@
   display: flex;
   justify-content: flex-end;
   min-width: 200px;
+  flex-grow: 1;
 }
 
 .ownerText {
@@ -110,50 +111,70 @@
 
 .requestBody {
   display: flex;
-  align-items: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.requestLabels {
-  min-width: 100px;
-  flex-basis: 20%;
-  flex-wrap: nowrap;
-  padding-left: 0;
-  padding-right: 12px;
-  border-right: 2px solid rgb(242, 242, 242);
-}
-
 .requestItems {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 50%;
+  flex-wrap: nowrap;
   padding: 0 12px;
 }
 
-.listStyle {
-  composes: sansBold from '../../styles-common/typography.css';
+.requestItemContainer {
+  list-style: none;
   display: flex;
-  postition: relative;
-  height: 60px;
-  align-items: flex-end;
-  list-style: none;
-  cursor: pointer;
 }
 
-.requestLabelsItem {
+.requestItemLabel {
+  composes: sans from '../../styles-common/typography.css';
   composes: darkGray from '../../styles-common/colors.css';
-  composes: listStyle;
-  justify-content: flex-end;
-  align-self: flex-end;
+  display: block;
+  margin: 0;
+  min-width: 200px;
+  flex-basis: 20%;
+  padding: 37px 12px 0 0;
+  text-align: right;
+  border-right: 2px solid rgb(242, 242, 242);
+  font-size: 1em;
 }
 
-.requestItemsItem {
+.requestCompose {
+  margin: 0 12px;
+  padding: 34px 0 0 0;
+  min-width: 400px;
+  flex-grow: 1;
+  border-bottom: 3px solid rgb(242, 242, 242);
+}
+
+.requestItem {
+  composes: requestCompose;
+  composes: sansBold from '../../styles-common/typography.css';
   composes: purple from '../../styles-common/colors.css';
-  composes: large from '../../styles-common/typography.css';
-  composes: listStyle;
-  list-style: none;
-  border-bottom: 2px solid rgb(211, 211, 211);
+  margin: 0 12px;
+  padding: 34px 0 0 0;
+  min-width: 400px;
+  flex-grow: 1;
+  font-size: 1.2em;
+  border-bottom: 3px solid rgb(242, 242, 242);
 }
 
-.requestItemsItem:hover:after {
+.requestUrl {
+  composes: requestCompose;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.requestDescription {
+  composes: requestCompose;
+  composes: bodyText from '../../styles-common/typography.css';
+}
+
+/*
+.requestItem:hover:after {
   position: absolute;
   margin-left: 12px;
   padding: 4px;
@@ -163,13 +184,14 @@
   content: 'edit';
 }
 
-.requestItemsItem:active:after {
+.requestItem:active:after {
   display: none;
 }
-
+*/
 .historyContainer {
   composes: sans from '../../styles-common/typography.css';
   margin-top: 40px;
+  height: 2000px;
   flex-grow: 1;
   border-left: 2px solid rgb(242, 242, 242);
 
@@ -187,6 +209,17 @@
   margin-top: 0;
 }
 
+@media screen and (max-width: 1280px) {
+  .titleContainer{
+    max-width: 660px;
+  }
+  .historyContainer {
+    width: 100%;
+    padding-left: 0;
+    border: 0;
+  }
+}
+
 @media screen and (max-width: 1000px) {
   .ownerContainer {
     margin: 24px 0 0 52px;
@@ -202,25 +235,32 @@
 }
 
 @media screen and (max-width: 850px) {
-  .requestLabels {
+  .requestItemLabel {
     font-size: 14px;
   }
 }
 
 @media screen and (max-width: 850px) {
-  .requestLabels {
+  .requestItemLabel {
     font-size: 10px;
   }
-  .requestItems {
+  .requestItem {
     font-size: 16px;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .requestLabels {
-    font-size: 9px;
+  .requestItemLabel {
+    min-width: 100px;
   }
-  .requestItems {
-    font-size: 12px;
+  .requestItem {
+    font-size: 14px;
+    min-width: 260px;
+  }
+  .titleContainer {
+    max-width: 380px;
+  }
+  .title {
+    font-size: 1.4em;
   }
 }

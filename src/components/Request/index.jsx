@@ -91,40 +91,53 @@ export default class Request extends React.Component {
         </section>
 
         <section  className={styles.requestBody}>
-          <ul className={styles.requestLabels}>
-            <li className={styles.requestLabelsItem}>
-              Target Date
-            </li>
-            <li className={styles.requestLabelsItem}>
-              Client
-            </li>
-            <li className={styles.requestLabelsItem}>
-              Ticket URL
-            </li>
-            <li className={styles.requestLabelsItem}>
-              Product Area
-            </li>
-            <li className={styles.requestLabelsItem}>
-              description
+          <ul className={styles.requestItems}>
+            <li className={styles.requestItemContainer}>
+
+              <h2 className={styles.requestItemLabel}>Target Date</h2>
+
+              <div className={styles.requestItem}>
+                {this.state.targetDate}
+              </div>
             </li>
 
-          </ul>
-          <ul className={styles.requestItems}>
-            <li className={styles.requestItemsItem}>
-              {this.state.targetDate}
+            <li className={styles.requestItemContainer}>
+              <h2 className={styles.requestItemLabel}>Client</h2>
+
+              <div className={styles.requestItem}>
+                {this.state.request.clientName.name}
+              </div>
             </li>
-            <li className={styles.requestItemsItem}>
-              {this.state.request.clientName.name}
+
+            <li className={styles.requestItemContainer}>
+              <h2 className={styles.requestItemLabel}>Ticket URL</h2>
+
+              <div className={styles.requestUrl}>
+                <a href={this.state.request.ticketUrl}
+                   className={styles.link}
+                   target="_blank"
+                 >
+                  {this.state.request.ticketUrl}
+                </a>
+              </div>
             </li>
-            <li className={styles.requestItemsItem}>
-              {this.state.request.ticketUrl}
+
+            <li className={styles.requestItemContainer}>
+              <h2 className={styles.requestItemLabel}>Product Area</h2>
+
+              <div className={styles.requestItem}>
+                {this.state.request.productName.productName}
+              </div>
             </li>
-            <li className={styles.requestItemsItem}>
-              {this.state.request.productName.productName}
+
+            <li className={styles.requestItemContainer}>
+              <h2 className={styles.requestItemLabel}>Description</h2>
+
+              <div className={styles.requestDescription}>
+                {this.state.request.description}
+              </div>
             </li>
-            <li className={styles.requestItemsItem}>
-              {this.state.request.description}
-            </li>
+
           </ul>
           <ul className={styles.historyContainer}>
             <li className={styles.historyItem}>

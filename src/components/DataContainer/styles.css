@@ -139,6 +139,10 @@
 
 @media screen and (min-width: 1280px) {
   .data {
-    min-width: 640px;
+    width: 640px;
   }
+  .itemTitle {
+    max-width: 280px;
+  }
+
 }
