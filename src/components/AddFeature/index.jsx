@@ -199,6 +199,7 @@ export default class AddFeature extends React.Component {
   render() {
     return (
       <section>
+        <h1 className={styles.pageTitle}>Add a New Feature Request</h1>
         <form
           ref="form"
           className={styles.addFeatureForm}
