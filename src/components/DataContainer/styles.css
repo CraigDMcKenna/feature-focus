@@ -41,7 +41,7 @@
   overflow-x: hidden;
   margin: 4px;
   resize: both;
-  width: 600px;
+  min-width: 340px;
   height: 180px;
   padding: 10px 0 0;
   outline: none;
@@ -50,15 +50,7 @@
 }
 
 .data {
-  width: 100%;
   font-size: 16px;
-}
-
-@media screen and (max-width: 587px) {
-   .data {
-     font-size: 14px;
-     width: 18rem;
-   }
 }
 
 .link {
@@ -78,7 +70,6 @@
 }
 
 .listItem {
-  list-style: none;
 }
 
 .listItemEven {
@@ -99,4 +90,59 @@
 .item {
   margin: 0;
   padding: 0;
+}
+
+.itemDate {
+  composes: item;
+  width: 40px;
+}
+
+.itemTitle {
+  composes: item;
+  min-width: 180px;
+}
+
+.itemClient {
+  composes: item;
+  min-width: 100px;
+}
+
+@media screen and (max-width: 640px) {
+   .data {
+     font-size: 12px;
+   }
+}
+
+@media screen and (min-width: 640px) {
+  .data {
+    min-width: 600px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+   .data {
+     font-size: 10px;
+   }
+}
+
+@media screen and (min-width: 500px) {
+  .data {
+    min-width: 460px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .data {
+    min-width: 560px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .data {
+    width: 640px;
+  }
+  .itemTitle {
+    max-width: 280px;
+  }
+
 }

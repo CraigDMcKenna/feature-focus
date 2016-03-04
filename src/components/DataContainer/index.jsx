@@ -27,17 +27,17 @@ export default class DataContainer extends React.Component {
         return (
 
             <tr key={key} className={listClass}>
-              <td className={styles.item}>
+              <td className={styles.itemDate}>
                 <Link to={link} className={styles.link}>
                   {date}
                 </Link>
               </td>
-              <td className={styles.item}>
+              <td className={styles.itemTitle}>
                 <Link to={link} className={styles.link}>
                   {request.title}
                 </Link>
               </td>
-              <td className={styles.item}>
+              <td className={styles.itemClient}>
                 <Link to={link} className={styles.link}>
                   {request.name}
                 </Link>

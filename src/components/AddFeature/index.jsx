@@ -3,7 +3,6 @@
 //       * Compact onChange into one/few method(s)
 
 import React from 'react'
-import Modal from '../Modal'
 import TextInput from '../FormComponents/TextInput'
 import Select from '../FormComponents/Select'
 import TextArea from '../FormComponents/TextArea'
@@ -32,7 +31,8 @@ export default class AddFeature extends React.Component {
         targetDate: '',
         ticketUrl: '',
         productId: '',
-        createdBy: localStorage.user_id
+        createdBy: localStorage.user_id,
+        owner: localStorage.user_id
       },
       submissionReady: false,
       submitDisabled: true,
@@ -98,7 +98,7 @@ export default class AddFeature extends React.Component {
       }
     }
 
-    if (completeFieldsCount === 8) {
+    if (completeFieldsCount === 9) {
       this.setState({submissionReady: true})
       this.setState({submitDisabled: false})
     } else {
@@ -199,6 +199,7 @@ export default class AddFeature extends React.Component {
   render() {
     return (
       <section>
+        <h1 className={styles.pageTitle}>Add a New Feature Request</h1>
         <form
           ref="form"
           className={styles.addFeatureForm}

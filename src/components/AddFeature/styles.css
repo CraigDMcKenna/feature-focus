@@ -1,3 +1,7 @@
+.pageTitle {
+  composes: pageTitle from '../../styles-common/typography.css'
+}
+
 .addFeatureForm {
   display: flex;
   align-items: flex-start;
