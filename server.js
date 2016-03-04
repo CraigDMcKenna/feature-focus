@@ -115,7 +115,7 @@ router.route('/auth/validate')
   })
 
 
-// Users
+// Users: get all users ordered by name
 router.route('/users')
 
   .get((req, res) => {
@@ -131,6 +131,44 @@ router.route('/users')
       })
   })
 
+
+// Users: get user following status of requst
+// for given feature_requst id (:id) and user id
+router.route('/user/following/:id')
+
+  .get((req,res) => {
+
+    r.table('users')
+    .getAll(req.headers['x-user-id'])
+    .filter(function(user) {
+      return {
+        following: user('following')
+
+        .filter(function(follow){
+          return follow('requestId').eq(req.params.id)
+        })
+      }
+    })
+    .pluck('following')
+    .run(res._rdbConn)
+    .then((cursor) => {
+      return cursor.toArray()
+    })
+    .then((result) => {
+      console.log(result)
+      let response = {following: true}
+
+      if (result === 'undefined') { // sometimes weird 'undefined' responses
+        response.following = false
+      } else if (!result.length) {
+        response.following = false
+      } else if (!result[0].following.length) {
+        response.following = false
+      }
+
+      res.json(response)
+    })
+  })
 
 // Clients
 router.route('/clients')
@@ -223,8 +261,9 @@ router.route('/feature-requests/request:id')
       .merge((item) => {
         return {
           createdByName: r.table('users').get(item('createdBy')).pluck('name'),
+          ownerName: r.table('users').get(item('owner')).pluck('name'),
           clientName: r.table('clients').get(item('clientId')).pluck('name'),
-          productName: r.table('products').get(item('productId')).pluck('productName'),
+          productName: r.table('products').get(item('productId')).pluck('productName')
         }
       })
       .run(res._rdbConn)

@@ -1,0 +1,10 @@
+.loading {
+  position: absolute;
+  z-index: 101;
+  width: 1400px;
+  height: 100%;
+  background-image: url('../../images/loading-rippleicon.svg');
+  background-repeat: no-repeat;
+  background-position: top;
+  background-color: white;
+}

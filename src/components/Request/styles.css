@@ -11,42 +11,60 @@
 }
 
 .follow {
+  position: relative;
   float: left;
   width: 40px;
   height: 40px;
   margin: 0 12px 0 0;
-}
-
-.follow:hover:after {
-  margin-left: 12px;
-  padding: 4px;
-  background-color: rgb(116, 88, 127);
-  font-size: 16px;
-  color: white;
-  content: 'follow';
-}
-
-.follow:active:after {
-  display: none;
-}
-
-.notFollowing {
-  composes: follow;
-  background-image: url('../../images/star.svg');
   background-size: 40px;
   background-repeat: no-repeat;
   background-position: center;
 }
+.notFollowing {
+  composes: follow;
+  background-image: url('../../images/star.svg');
+
+}
+
+.notFollowing:hover:after {
+  position: absolute;
+  top: -20px;
+  color: rgb(116, 88, 127);
+  font-family: 'Noto Sans', sans-serif;
+  content: 'follow';
+}
+
+.notFollowing:active:after {
+  display: none;
+}
+
+.following {
+  composes: follow;
+  background-image: url('../../images/star-yellow.svg')
+}
+
+.following:hover:after {
+  position: absolute;
+  top: -20px;
+  color: rgb(116, 88, 127);
+  font-family: 'Noto Sans', sans-serif;
+  content: 'unfollow';
+}
+
+.following:active:after {
+  display: none;
+}
 
 .title {
+  position: relative;
   margin: 0 0 0 52px;
   composes: sans from '../../styles-common/typography.css';
   composes: purple from '../../styles-common/colors.css';
   font-size: 2em;
-  cursor: pointer;
 }
 
 .title:hover:after {
+  position: absolute;
   margin-left: 12px;
   padding: 4px;
   background-color: rgb(116, 88, 127);
@@ -68,7 +86,6 @@
   composes: purple from '../../styles-common/colors.css';
   margin-left: 12px;
   font-size: 1.4em;
-  cursor: pointer;
 }
 
 .priorityNumber:hover:after {
@@ -141,16 +158,16 @@
   font-size: 1em;
 }
 
-.requestCompose {
+.requestItemComposer {
   margin: 0 12px;
   padding: 34px 0 0 0;
   min-width: 400px;
   flex-grow: 1;
-  border-bottom: 3px solid rgb(242, 242, 242);
+  border-bottom: 2px solid rgb(242, 242, 242);
 }
 
 .requestItem {
-  composes: requestCompose;
+  composes: requestItemComposer;
   composes: sansBold from '../../styles-common/typography.css';
   composes: purple from '../../styles-common/colors.css';
   margin: 0 12px;
@@ -162,18 +179,18 @@
 }
 
 .requestUrl {
-  composes: requestCompose;
+  composes: requestItemComposer;
   overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
 
 .requestDescription {
-  composes: requestCompose;
+  composes: requestItemComposer;
   composes: bodyText from '../../styles-common/typography.css';
+  border: none;
 }
 
-/*
 .requestItem:hover:after {
   position: absolute;
   margin-left: 12px;
@@ -187,36 +204,52 @@
 .requestItem:active:after {
   display: none;
 }
-*/
+
 .historyContainer {
-  composes: sans from '../../styles-common/typography.css';
-  margin-top: 40px;
+  margin: 40px 0 0 24px;
+  padding: 0;
   height: 2000px;
   flex-grow: 1;
-  border-left: 2px solid rgb(242, 242, 242);
-
 }
 
 .historyItem {
-  composes: bodyText from '../../styles-common/typography.css';
+  margin-bottom: 24px;
   list-style: none;
 }
 
-.historyDate {
+.historyHeader {
+  composes: sans from '../../styles-common/typography.css';
+  border-left: 2px solid rgb(242, 242, 242);
+  padding: 0 0 29px 12px;
+}
+
+.historyHeading{
   composes: sans from '../../styles-common/typography.css';
   composes: darkGray from '../../styles-common/colors.css';
-  font-size: 18px;
-  margin-top: 0;
+  font-size: 17px;
+  margin: 0;
+}
+
+.historyAuthor {
+  composes: historyHeading;
+  font-weight: 500;
+}
+
+.historyBody {
+  composes: bodyText from '../../styles-common/typography.css';
+  margin-top: -17px;
+  padding-left: 24px;
 }
 
 @media screen and (max-width: 1280px) {
   .titleContainer{
     max-width: 660px;
   }
-  .historyContainer {
-    width: 100%;
-    padding-left: 0;
-    border: 0;
+}
+
+@media screen and (min-width: 1170px) {
+  .requestBody{
+    flex-wrap: nowrap;
   }
 }
 

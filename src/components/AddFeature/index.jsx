@@ -3,7 +3,6 @@
 //       * Compact onChange into one/few method(s)
 
 import React from 'react'
-import Modal from '../Modal'
 import TextInput from '../FormComponents/TextInput'
 import Select from '../FormComponents/Select'
 import TextArea from '../FormComponents/TextArea'

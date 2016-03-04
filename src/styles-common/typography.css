@@ -10,6 +10,7 @@
 
 .bodyText {
   font-family: helvetica, arial, sans-serif;
+  composes: darkGray from './colors.css';
 }
 
 .large {
