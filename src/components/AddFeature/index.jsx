@@ -13,8 +13,10 @@ import featureRequests from '../../data/feature-requests'
 import styles from './styles.css'
 
 export default class AddFeature extends React.Component {
-  constructor() {
-    super()
+  constructor(props, context) {
+    super(props, context)
+
+    context.router
 
     this.state = {
       clientsLoading: true,
@@ -110,7 +112,7 @@ export default class AddFeature extends React.Component {
   handleTitleChange(value, event) {
     let requestObject = this.state.requestSubmission
 
-    requestObject.title = value
+    requestObject.title = value.trim()
 
     this.setState({requestSubmission: requestObject})
     this.validate()
@@ -170,7 +172,7 @@ export default class AddFeature extends React.Component {
   handleDescriptionChange(value) {
     let requestObject = this.state.requestSubmission
 
-    requestObject.description = value
+    requestObject.description = value.trim()
 
     this.setState({requestSubmission: requestObject})
     this.validate()
@@ -182,13 +184,20 @@ export default class AddFeature extends React.Component {
     let submission = this.state.requestSubmission
 
     featureRequests.createRequest(submission, (response) => {
-      alert('Request Added: ' + JSON.stringify(response))
+      //alert('Request Added: ' + JSON.stringify(response.id))
+
+      this.refs.form.reset()
+
+      const { location } = this.props
+
+      if (location.state && location.state.nextPathname) {
+        this.context.router.replace(location.state.nextPathname)
+      } else {
+        this.context.router.replace(`/request/${response.id}`)
+      }
+
+
     })
-
-    this.refs.form.reset()
-    this.setState({priorityIsDisabled: true})
-    this.setState({submitDisabled: true})
-
   }
 
   componentDidMount() {
@@ -281,4 +290,8 @@ export default class AddFeature extends React.Component {
       </section>
     )
   }
+}
+
+AddFeature.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
