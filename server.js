@@ -159,7 +159,6 @@ router.route('/user/following/:id')
       return cursor.toArray()
     })
     .then((result) => {
-      console.log(result)
       let response = {following: true}
 
       if (result === 'undefined') { // sometimes weird 'undefined' responses
@@ -206,11 +205,10 @@ router.route('/feature-requests')
         if (result.inserted !== 1) {
           console.log('Error: document not inserted!')
         } else {
-          res.json(result.changes[0].new_val)
-          return // generated id
+          return result.changes[0].new_val //.id
         }
       })
-      .then(
+      .then((result) => {
         // Re-prioritize any requests >= this request
         r.table('feature_requests')
           .indexWait('clientId')
@@ -231,7 +229,21 @@ router.route('/feature-requests')
               })
               .run(res._rdbConn)
           )
-      )
+          .then(
+            r.table('feature_request_history')
+              .insert({
+                requestId: result.id,
+                messages: [{
+                  timestamp: r.now().toEpochTime(),
+                  authorId: result.createdBy,
+                  type: 'update',
+                  message: 'Created Feature Request'
+                }]
+              })
+              .run(res._rdbConn)
+              .then(res.json(result))
+          )
+      })
   })
 
   // Get all Feature Requests equal join clients and products without redundant ids
@@ -294,7 +306,7 @@ router.route('/feature-requests/client:id')
     )
   })
 
-// Feature Requests By User id eqaual join with clients without redundant ids
+// Feature Requests By User id equal join with clients without redundant ids
 router.route('/feature-requests/user:id')
 
   .get((req, res) => {
@@ -315,6 +327,56 @@ router.route('/feature-requests/user:id')
             res.json(result)
           })
     )
+  })
+
+// Feature Request History
+
+// insert new history update by id where :id is feature_request id
+// and the key is a rethinkdb timestamp
+router.route('/feature-request/history/insert')
+
+  .post((req, res) => {
+
+    let request = req.body
+
+    r.table('feature_request_history')
+      .get(request.id)
+      .update({
+        messages: r.row('messages')
+        .append({
+          type: request.type,
+          timestamp: r.now().toEpochTime(),
+          authorId: request.authorId,
+          message: request.message
+        })
+      })
+      .run(res._rdbConn)
+      .then(result => res.json(result))
+  })
+
+ // Feature request history by feature_requst id
+ router.route('/feature-request/history/:id')
+
+  .get((req, res) => {
+    r.table('feature_request_history')
+      .get(req.params.id)
+      .merge(history => {
+        return {messages: history('messages')
+          .map(message => {
+            return (
+              message.merge((row) => {
+                return (
+                  r.table('users')
+                  .get(row('authorId'))
+                  .pluck('name')
+                )
+              })
+            )
+          })
+        }
+      })
+      .run(res._rdbConn)
+      .then(result => res.json(result))
   })
 
 

@@ -50,19 +50,21 @@ export default class Dashboard extends React.Component {
 
     return (
       <div>
-        <section className={styles.heading}>
+        <section className={styles.header}>
 
-          <h1>Your Feature Requests: {this.state.requestsByUser.length}</h1>
-          <h1>Total Feature Requests: {this.state.featureRequests.length}</h1>
+          <h1 className={styles.heading}>Your Feature Requests: {this.state.requestsByUser.length}</h1>
+          <h1 className={styles.heading}>Total Feature Requests: {this.state.featureRequests.length}</h1>
         </section>
 
         <main className={styles.data}>
           <DataContainer
             label="Your FeatureRequests"
+            emptyMessage="You are not he owner of any feature requests"
             content={this.state.requestsByUser}
           />
           <DataContainer
             label="Due this Week"
+            emptyMessage="There are no feature requests due this week"
             content={this.state.dueThisWeek}
           />
           <DataContainer
@@ -72,6 +74,7 @@ export default class Dashboard extends React.Component {
           />
           <DataContainer
             label="All Requests"
+            emptyMessage="There are no active feature requests"
             content={this.state.featureRequests}
           />
         </main>

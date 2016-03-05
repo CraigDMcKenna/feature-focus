@@ -223,15 +223,15 @@
   padding: 0 0 29px 12px;
 }
 
-.historyHeading{
+.historyAuthor {
   composes: sans from '../../styles-common/typography.css';
   composes: darkGray from '../../styles-common/colors.css';
   font-size: 17px;
   margin: 0;
 }
 
-.historyAuthor {
-  composes: historyHeading;
+.historyDate {
+  composes: historyAuthor;
   font-weight: 500;
 }
 

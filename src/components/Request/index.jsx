@@ -1,5 +1,6 @@
 import React from 'react'
 import LoadingModal from '../LoadingModal'
+import History from '../History'
 import styles from './styles.css'
 import Moment from 'moment';
 import featureRequests from '../../data/feature-requests'
@@ -183,23 +184,9 @@ export default class Request extends React.Component {
                 {this.state.request.description}
               </div>
             </li>
-
-          </ul>
-          <ul className={styles.historyContainer}>
-
-
-
-            <li className={styles.historyItem}>
-              <section className={styles.historyHeader}>
-                <h1 className={styles.historyHeading}>{creationDate}</h1>
-                <h1 className={styles.historyAuthor}>{createdBy}</h1>
-              </section>
-              <section className={styles.historyBody}>
-                Created Feature Request
-              </section>
-            </li>
           </ul>
 
+          <History requestId={this.props.params.id} />
         </section>
       </div>
     )

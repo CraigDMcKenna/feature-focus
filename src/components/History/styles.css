@@ -1,0 +1,67 @@
+.historyContainer {
+  margin: 48px 0 0 24px;
+  padding: 0;
+  height: 2000px;
+  flex-grow: 1;
+}
+
+.menu {
+  list-style: none;
+  margin-bottom: 24px;
+}
+
+.menuItem {
+  composes: sansBold from '../../styles-common/typography.css';
+  margin-left: 12px;
+  padding: 4px;
+  background-color: rgb(116, 88, 127);
+  font-size: 16px;
+  color: white;
+  cursor: default;
+}
+
+.addMessage{
+  composes: menu;
+  margin-top: -12px;
+  padding-left: 12px;
+}
+
+.newMessage {
+  composes: bodyText from '../../styles-common/typography.css';
+  min-height: 60px;
+  overflow-y: auto;
+  border: 2px solid rgb(200, 200, 200);
+}
+
+.newMessage:focus {
+  border: none;
+}
+
+.historyItem {
+  margin-bottom: 24px;
+  list-style: none;
+}
+
+.historyHeader {
+  composes: sans from '../../styles-common/typography.css';
+  border-left: 2px solid rgb(242, 242, 242);
+  padding: 0 0 29px 12px;
+}
+
+.historyAuthor {
+  composes: sans from '../../styles-common/typography.css';
+  composes: darkGray from '../../styles-common/colors.css';
+  font-size: 17px;
+  margin: 0;
+}
+
+.historyDate {
+  composes: historyAuthor;
+  font-weight: 500;
+}
+
+.historyBody {
+  composes: bodyText from '../../styles-common/typography.css';
+  margin-top: -17px;
+  padding-left: 24px;
+}

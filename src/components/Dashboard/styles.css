@@ -1,9 +1,14 @@
-.heading {
+.header {
   display: flex;
   align-items: flex-start;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
+}
+
+.heading {
+  composes: pageTitle from '../../styles-common/typography.css';
+  margin-right: 48px;
 }
 
 @media screen and (max-width: 1400px) {
