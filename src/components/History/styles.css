@@ -1,0 +1,35 @@
+.historyContainer {
+  margin: 40px 0 0 24px;
+  padding: 0;
+  height: 2000px;
+  flex-grow: 1;
+}
+
+.historyItem {
+  margin-bottom: 24px;
+  list-style: none;
+}
+
+.historyHeader {
+  composes: sans from '../../styles-common/typography.css';
+  border-left: 2px solid rgb(242, 242, 242);
+  padding: 0 0 29px 12px;
+}
+
+.historyAuthor {
+  composes: sans from '../../styles-common/typography.css';
+  composes: darkGray from '../../styles-common/colors.css';
+  font-size: 17px;
+  margin: 0;
+}
+
+.historyDate {
+  composes: historyAuthor;
+  font-weight: 500;
+}
+
+.historyBody {
+  composes: bodyText from '../../styles-common/typography.css';
+  margin-top: -17px;
+  padding-left: 24px;
+}

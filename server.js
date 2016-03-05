@@ -204,11 +204,10 @@ router.route('/feature-requests')
         if (result.inserted !== 1) {
           console.log('Error: document not inserted!')
         } else {
-          res.json(result.changes[0].new_val)
-          return // generated id
+          return result.changes[0].new_val //.id
         }
       })
-      .then(
+      .then((result) => {
         // Re-prioritize any requests >= this request
         r.table('feature_requests')
           .indexWait('clientId')
@@ -229,7 +228,31 @@ router.route('/feature-requests')
               })
               .run(res._rdbConn)
           )
-      )
+          .then(
+            // generate timestamp for history key
+            r.now().toEpochTime().run(res._rdbConn)
+            .then((result) => result)
+            .then(key => {
+              let object = {}
+
+              object.requestId = result.id
+
+              object[key] = {
+                timestamp: key,
+                authorId: result.createdBy,
+                type: 'update',
+                message: 'Created Feature Request'
+              }
+
+              r.table('feature_request_history')
+                .insert(object)
+                .run(res._rdbConn)
+                .then(
+                  res.json(result)
+                )
+            })
+          )
+      })
   })
 
   // Get all Feature Requests equal join clients and products without redundant ids
@@ -313,6 +336,46 @@ router.route('/feature-requests/user:id')
             res.json(result)
           })
     )
+  })
+
+// Feature Request History
+
+// insert new history update by id where :id is feature_request id
+// and the key is a rethinkdb timestamp
+router.route('/feature-request/history/insert')
+
+  .post((req, res) => {
+
+    let request = req.body
+
+    r.now().toEpochTime().run(res._rdbConn)
+      .then(key => {
+        let object = {}
+
+        object[key] = {
+          timestamp: key,
+          authorId: request.authorId,
+          type: request.type,
+          message: request.message
+        }
+
+        r.table('feature_request_history')
+          .getAll(request.id)
+          .update(object, {returnChanges: true})
+          .run(res._rdbConn)
+          //.then(cursor => cursor.toArray())
+          .then(result => res.json(result.changes[0].new_val))
+      })
+  })
+
+ // Feature request history by feature_requst id
+ router.route('/feature-request/history/:id')
+
+  .get((req, res) => {
+    r.table('feature_request_history')
+      .get(req.params.id)
+      .run(res._rdbConn)
+      .then(result => res.json(result))
   })
 
 

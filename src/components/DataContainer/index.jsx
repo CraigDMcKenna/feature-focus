@@ -17,7 +17,9 @@ export default class DataContainer extends React.Component {
 
   render() {
     let content = this.props.content.length === 0 || undefined ?
-      <tr className={styles.listItem}><td>{this.props.emptyMessage}</td></tr>
+      <tr className={styles.listItem}>
+        <td className={styles.empty}>{this.props.emptyMessage}</td>
+      </tr>
       :
       this.props.content.map((request, index) => {
         let key = request.id
