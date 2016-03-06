@@ -1,11 +1,13 @@
 import React from 'react'
+import * as _ from 'lodash'
 import LoadingModal from '../LoadingModal'
 import History from '../History'
-import ContentEditable from '../ContentEditable'
+import ContentEditable from 'react-contenteditable'
 import styles from './styles.css'
 import Moment from 'moment';
 import featureRequests from '../../data/feature-requests'
 import users from '../../data/users'
+import history from '../../data/history'
 
 export default class Request extends React.Component {
   constructor() {
@@ -13,6 +15,7 @@ export default class Request extends React.Component {
 
     this.state = {
       request: {
+        id: '',
         creationDate: '',
         title: '',
         priority: '',
@@ -27,55 +30,105 @@ export default class Request extends React.Component {
         description: '',
       },
       following: false,
-      loading: true
+      loading: true,
+      titleEdit: false,
+      title: '',
+      descriptionEdit: false,
+      description: ''
     }
 
     this.loadRequest = this.loadRequest.bind(this),
-    this.loadIsFollowing = this.loadIsFollowing.bind(this)
     this.toggleFollowing = this.toggleFollowing.bind(this)
-    this.toggleEditButton = this.toggleEditButton.bind(this)
+    this.editItem = this.editItem.bind(this)
+    this.cancelEditItem = this.cancelEditItem.bind(this)
+    this.saveItem = this.saveItem.bind(this)
+    this.handleContentChange = this.handleContentChange.bind(this)
   }
 
   loadRequest(id) {
     featureRequests.getRequestById(id, (response) => {
       this.setState({request: response})
-    })
-  }
+      this.setState({title: response.title})
+      this.setState({description: response.description})
 
-  loadIsFollowing() {
-    users.userIsFollowing(this.props.params.id, (response) => {
-      this.setState({following: response.following})
-      this.setState({loading: false})
+      users.userIsFollowing(this.props.params.id, (response) => {
+        this.setState({following: response.following})
+        this.setState({loading: false})
+      })
     })
   }
 
   toggleFollowing() {
     this.setState({following: !this.state.following})
   }
+  //this is ugly!!!!!!!
+  handleContentChange(stateObjKey, event) {
+    let str = event.target.value
 
-  formatData (request) {
-    let createdDate = Moment(request.createdOn)
-    .calendar(null, {
-    sameDay: '[Today]',
-    nextDay: '[Tomorrow]',
-    nextWeek: 'dddd',
-    lastDay: '[Yesterday]',
-    lastWeek: '[Last] dddd',
-    sameElse: 'DD/MM/YYYY'
-})
-    this.setState({createdDate: createdDate})
+    _.templateSettings.interpolate = /<(...)>/g;
+    let compile = _.template(str)
+    let compiled = compile({'div' : '\n'})
+
+    this.setState({ [stateObjKey] : compiled.replace(/\u00a0/g, ' ').replace(/(<([^>]+)>)/ig, '').trim() })
   }
 
-  toggleEditButton(ref) {
-    this.refs[ref].style.display === 'initial' ?
-    this.refs[ref].style.display = 'none' :
-    this.refs[ref].style.display = 'initial'
+  editItem(stateObjKey, event) {
+    let target = event.target
 
+    this.setState({[stateObjKey] : true})
+
+    setTimeout(() => {
+      target.focus()
+    }, 200)
+  }
+
+  // set editing state to false
+  // revert to inital value (this.state.request[key])
+  cancelEditItem(stateEditKey, stateValueKey) {
+   this.setState({[stateEditKey] : false})
+   this.setState({[stateValueKey] : this.state.request[stateValueKey]})
+  }
+
+  saveItem(stateEditKey, stateValueKey) {
+    let update = {
+      id: this.state.request.id,
+      updateItem: stateValueKey,
+      value: this.state[stateValueKey]
+    }
+    this.setState({loading: true})
+
+    featureRequests.updateRequest(update, (response) => {
+      if (response.length) {
+        let message = 'Updated ' + stateValueKey +
+          ' from: ' + this.state.request[stateValueKey]
+
+        let messageBody = {
+          id: this.state.request.id,
+          type: 'update',
+          authorId: localStorage.user_id,
+          message: message
+        }
+
+        let requestObject = this.state.request
+
+        requestObject[stateValueKey] = response[0].new_val[stateValueKey]
+
+        this.setState({[stateValueKey]: response[0].new_val[stateValueKey]})
+        this.setState({request: requestObject})
+        this.setState({[stateEditKey] : false})
+
+        history.insertHistoryMessage(messageBody, () => {
+          this.setState({loading: false})
+        })
+      } else {
+        this.setState({loading: false})
+        this.setState({[stateEditKey] : false})
+      }
+    })
   }
 
   componentDidMount() {
     this.loadRequest(this.props.params.id)
-    this.loadIsFollowing()
   }
 
   render() {
@@ -100,6 +153,12 @@ export default class Request extends React.Component {
     let createdBy = this.state.request.createdByName.name.first +
       ' ' + this.state.request.createdByName.name.last
 
+    let titleEditButtonsClass = this.state.titleEdit ?
+      styles.editButtonsShow : styles.editButtons
+
+    let descriptionEditButtonsClass = this.state.descriptionEdit ?
+      styles.editButtonsShow : styles.editButtons
+
     return (
       <div>
         {this.state.loading &&
@@ -116,28 +175,31 @@ export default class Request extends React.Component {
             >
             </div>
           }
-            <ContentEditable
-             html={this.state.request.title}
-             disabled={false}
-             //onchange={}
-             className={styles.title}
-             style={collapseTitleMargin}
-            />
 
+          <ContentEditable
+            name="title"
+            html={this.state.title}
+            disabled={!this.state.titleEdit}
+            onChange={this.handleContentEditableChange}
+            className={styles.title}
+            style={collapseTitleMargin}
+            onClick={(event) => this.editItem('titleEdit', event)}
+            onChange={(event) => this.handleContentChange('title', event)}
+          />
+          <div ref="titleEditButtons" className={titleEditButtonsClass}>
             <div
               className={styles.editButton}
-              ref="titleEditButton"
-              //onClick={this.editItem('title')}
+              onClick={() => this.saveItem('titleEdit', 'title')}
             >
               save
             </div>
             <div
               className={styles.editButton}
-              ref="titleEditButton"
-              //onClick={this.editItem('title')}
+              onClick={() => this.cancelEditItem('titleEdit', 'title')}
             >
               cancel
             </div>
+          </div>
 
 
             <h1 className={styles.priority}>
@@ -208,11 +270,28 @@ export default class Request extends React.Component {
               <h2 className={styles.requestItemLabel}>Description</h2>
 
               <ContentEditable
-                html={this.state.request.description}
-                disabled={false}
-                //onchange={}
+                name="description"
+                html={this.state.description}
+                disabled={!this.state.descriptionEdit}
+                onChange={this.handleContentEditableChange}
                 className={styles.requestDescription}
+                onClick={(event) => this.editItem('descriptionEdit', event)}
+                onChange={(event) => this.handleContentChange('description', event)}
               />
+              <div ref="descriptionEditButtons" className={descriptionEditButtonsClass}>
+                <div
+                  className={styles.editButton}
+                  onClick={() => this.saveItem('descriptionEdit', 'description')}
+                >
+                  save
+                </div>
+                <div
+                  className={styles.editButton}
+                  onClick={() => this.cancelEditItem('descriptionEdit', 'description')}
+                >
+                  cancel
+                </div>
+              </div>
             </li>
           </ul>
 
