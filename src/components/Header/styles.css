@@ -66,6 +66,23 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.dropDownContent {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.userInfo {
+  composes: sans from '../../styles-common/typography.css';
+  color: white;
+  margin-right: 24px;
+}
+
+.linkNarrow {
+  composes: link;
+  display: none;
+}
+
 @media screen and (max-width: 740px) {
   .menu {
     display: initial;
@@ -76,5 +93,22 @@
   .navLi {
     display: none;
   }
+  .dropDownContent {
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .userInfo {
+    margin: 0;
+    padding-bottom: 12px;
+  }
+  .linkNarrow {
+    margin: 0;
+    display: initial;
+    padding-bottom: 12px;
+  }
+  .link {
+    margin: 0;
+    padding-bottom: 12px;
+  }
 }
-

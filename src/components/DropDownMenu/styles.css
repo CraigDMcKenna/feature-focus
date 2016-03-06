@@ -1,22 +1,21 @@
  .dropDownWrapper {
   composes:  darkGrayBackground from '../../styles-common/colors.css';
-  display: flex;
+  display: none;
   justify-content: center;
-  height: 0px;
-  transition: height .2s ease;
+  height: 0;
+  padding: 12px;
+  overflow: hidden;
+  transition: min-height .2s ease, display .2s ease;
+ }
+
+ .dropDownWrapperActive {
+   composes: dropDownWrapper;
+   display: flex;
+   height: auto;
  }
 
 .dropDownNav {
   flex-grow: 1;
   justify-content: center;
   max-width: 1400px;
-}
-
-.heading {
-  composes: sans large from '../../styles-common/typography.css';
-  display: flex;
-  margin: 0;
-  align-items: center;
-  letter-spacing: .4em;
-  color: white;
 }

@@ -4,10 +4,14 @@ import logo from '../../images/ff-logo.png'
 
 export default class DropDownMenu extends React.Component {
   render() {
+    let headerClass = this.props.active ?
+      styles.dropDownWrapperActive :
+      styles.dropDownWrapper
+
     return (
-      <div className={styles.dropDownWrapper}>
+      <div className={headerClass}>
         <section className={styles.dropDownNav}>
-          <h1 className={styles.heading}>Heading{this.props.heading}</h1>
+          {this.props.content}
         </section>
       </div>
     )

@@ -1,7 +1,7 @@
 .historyContainer {
   margin: 48px 0 0 24px;
   padding: 0;
-  height: 2000px;
+  min-width: 300px;
   flex-grow: 1;
 }
 
@@ -29,12 +29,9 @@
 .newMessage {
   composes: bodyText from '../../styles-common/typography.css';
   min-height: 60px;
+  padding: 6px;
   overflow-y: auto;
   border: 2px solid rgb(200, 200, 200);
-}
-
-.newMessage:focus {
-  border: none;
 }
 
 .historyItem {
@@ -64,4 +61,11 @@
   composes: bodyText from '../../styles-common/typography.css';
   margin-top: -17px;
   padding-left: 24px;
+}
+
+@media screen and (max-width: 500px) {
+  .historyContainer {
+    margin: 24px 0;
+  }
+
 }
