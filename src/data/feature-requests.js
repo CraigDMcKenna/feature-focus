@@ -2,11 +2,7 @@ import request from 'superagent'
 
 export default {
 
-  // optional paramater: clientId
-  // return feature requests per client
-  // if undefined return all feature requests
   getRequests: (callback) => {
-
     request
       .get('api/feature-requests')
       .set('x-access-token', localStorage.token)
@@ -18,10 +14,10 @@ export default {
   },
 
   getRequestById: (id, callback) => {
-    let url = `api/feature-requests/request${id}`
+    let uri = `api/feature-requests/request/${id}`
 
     request
-      .get(url)
+      .get(uri)
       .set('x-access-token', localStorage.token)
       .end((err, res) => {
         if (err) console.log(err)
@@ -31,10 +27,10 @@ export default {
   },
 
   getRequestsByClient: (clientId, callback) => {
-    let url = `api/feature-requests/client${clientId}`
+    let uri = `api/feature-requests/client/${clientId}`
 
     request
-      .get(url)
+      .get(uri)
       .set('x-access-token', localStorage.token)
       .end((err, res) => {
         if (err) console.log(err)
@@ -44,10 +40,10 @@ export default {
   },
 
   getRequestsByUser: (userId, callback) => {
-    let url = `api/feature-requests/user${userId}`
+    let uri = `api/feature-requests/user/${userId}`
 
     request
-      .get(url)
+      .get(uri)
       .set('x-access-token', localStorage.token)
       .end((err, res) => {
         if (err) console.log(err)
@@ -57,10 +53,8 @@ export default {
   },
 
   createRequest: (submission, callback) => {
-      let url = 'api/feature-requests'
-
       request
-        .post(url)
+        .post('api/feature-requests')
         .set('x-access-token', localStorage.token)
         .send(submission)
         .end((err, res) => {
@@ -68,5 +62,39 @@ export default {
 
           callback(res.body)
       })
-  }
+  },
+
+
+/***
+    <request_body_format> = {
+      id: <feature_request_id>,
+      updateItem: <item_to_update>,  // title || description...
+      value: <new_value>
+    }
+
+    // will return array ->
+      [
+        {
+          new_val : { <new_feature_request_values> }
+        },
+        {
+          old_val : { <feature_request_values> }
+        }
+     ]
+
+   // or empty array if no changes
+*/
+
+
+ updateRequest: (submission, callback) => {
+     request
+        .post('api/feature-request/update')
+        .set('x-access-token', localStorage.token)
+        .send(submission)
+        .end((err, res) => {
+          if (err) console.log(err)
+
+          callback(res.body)
+      })
+ }
 }

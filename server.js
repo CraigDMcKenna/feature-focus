@@ -173,6 +173,9 @@ router.route('/user/following/:id')
     })
   })
 
+
+//////////////////////////////////  Add Follow create & Delete /////////////////////////////////////
+
 // Clients
 router.route('/clients')
 
@@ -265,8 +268,25 @@ router.route('/feature-requests')
     })
   })
 
+
+// Update Feature Request return changes
+
+router.route('/feature-request/update')
+
+  .post((req, res) => {
+    let request = req.body
+
+    r.table('feature_requests')
+      .get(request.id)
+      .update({[request.updateItem] : request.value}, {returnChanges: true})
+      .run(res._rdbConn)
+      .then((result) => res.json(result.changes))
+
+  })
+
+
 // Single Feature Request by id, merge all ids
-router.route('/feature-requests/request:id')
+router.route('/feature-requests/request/:id')
 
   .get((req, res) => {
 
@@ -287,7 +307,7 @@ router.route('/feature-requests/request:id')
   })
 
 // Feature Requests By Client id
-router.route('/feature-requests/client:id')
+router.route('/feature-requests/client/:id')
 
   .get((req, res) => {
 
@@ -307,7 +327,7 @@ router.route('/feature-requests/client:id')
   })
 
 // Feature Requests By User id equal join with clients without redundant ids
-router.route('/feature-requests/user:id')
+router.route('/feature-requests/user/:id')
 
   .get((req, res) => {
 

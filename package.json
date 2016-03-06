@@ -28,6 +28,7 @@
     "moment": "2.11.2",
     "njwt": "0.2.3",
     "react": "0.14.7",
+    "react-contenteditable": "1.1.0",
     "react-dom": "0.14.7",
     "react-router": "2.0.0",
     "rethinkdb": "2.2.2",
