@@ -7,6 +7,8 @@ config.js
 
 # Elastic Beanstalk Files
 
+.ebextensions/
+
 .elasticbeanstalk/*
 
 !.elasticbeanstalk/*.cfg.yml

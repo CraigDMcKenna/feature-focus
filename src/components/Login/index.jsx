@@ -7,7 +7,7 @@ import styles from './styles.css'
 
 export default class Login extends React.Component {
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
 
     context.router
 

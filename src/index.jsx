@@ -4,6 +4,7 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 import App from './components/App'
 import Request from './components/Request'
 import Login from './components/Login'
+import Logout from './components/Logout'
 import Dashbord from './components/Dashboard'
 import AddFeature from './components/AddFeature'
 import styles from './styles-common/layout.css'
@@ -29,7 +30,8 @@ ReactDom.render((
     <Route path="/" component={App} onEnter={requireAuth}>
       <IndexRoute component={Dashbord} />
       <Route path="request/:id" component={Request} />
-      <Route path="/new-request" component={AddFeature} />
+      <Route path="new-request" component={AddFeature} />
+      <Route path="/logout" component={Logout} />
     </Route>
 
     <Route path="/login" component={Login} />
