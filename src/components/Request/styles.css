@@ -58,12 +58,12 @@
 .title {
   position: relative;
   margin: 0 0 0 52px;
-  composes: sans from '../../styles-common/typography.css';
+  composes: sansBold from '../../styles-common/typography.css';
   composes: purple from '../../styles-common/colors.css';
   font-size: 2em;
 }
 
-.title:hover:after {
+/*.title:hover:after {
   position: absolute;
   margin-left: 12px;
   padding: 4px;
@@ -71,11 +71,22 @@
   font-size: 16px;
   color: white;
   content: 'edit';
+}*/
+
+.editButton {
+  composes: sansBold from '../../styles-common/typography.css';
+  display: none;
+  position: absolute;
+  padding: 6px;
+  background-color: rgb(116, 88, 127);
+  font-size: 16px;
+  color: white;
+  content: 'edit';
 }
 
-.title:active:after {
+/*.title:active:after {
   display: none;
-}
+}*/
 
 .priority {
   composes: pageTitle from '../../styles-common/typography.css';

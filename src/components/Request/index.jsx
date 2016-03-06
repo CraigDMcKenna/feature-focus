@@ -1,13 +1,14 @@
 import React from 'react'
 import LoadingModal from '../LoadingModal'
 import History from '../History'
+import ContentEditable from '../ContentEditable'
 import styles from './styles.css'
 import Moment from 'moment';
 import featureRequests from '../../data/feature-requests'
 import users from '../../data/users'
 
 export default class Request extends React.Component {
-  constructor(){
+  constructor() {
     super()
 
     this.state = {
@@ -32,6 +33,7 @@ export default class Request extends React.Component {
     this.loadRequest = this.loadRequest.bind(this),
     this.loadIsFollowing = this.loadIsFollowing.bind(this)
     this.toggleFollowing = this.toggleFollowing.bind(this)
+    this.toggleEditButton = this.toggleEditButton.bind(this)
   }
 
   loadRequest(id) {
@@ -62,6 +64,13 @@ export default class Request extends React.Component {
     sameElse: 'DD/MM/YYYY'
 })
     this.setState({createdDate: createdDate})
+  }
+
+  toggleEditButton(ref) {
+    this.refs[ref].style.display === 'initial' ?
+    this.refs[ref].style.display = 'none' :
+    this.refs[ref].style.display = 'initial'
+
   }
 
   componentDidMount() {
@@ -102,17 +111,35 @@ export default class Request extends React.Component {
           {/* hide follow icon from owner of feature request */}
           {displayFollowIcon &&
             <div
-            className={followingClass}
-            onClick={this.toggleFollowing}
+              className={followingClass}
+              onClick={this.toggleFollowing}
             >
             </div>
           }
-            <h1
-              className={styles.title}
-              style={collapseTitleMargin}
+            <ContentEditable
+             html={this.state.request.title}
+             disabled={false}
+             //onchange={}
+             className={styles.title}
+             style={collapseTitleMargin}
+            />
+
+            <div
+              className={styles.editButton}
+              ref="titleEditButton"
+              //onClick={this.editItem('title')}
             >
-              {this.state.request.title}
-            </h1>
+              save
+            </div>
+            <div
+              className={styles.editButton}
+              ref="titleEditButton"
+              //onClick={this.editItem('title')}
+            >
+              cancel
+            </div>
+
+
             <h1 className={styles.priority}>
               Priority:
               <span className={styles.priorityNumber}>
@@ -180,9 +207,12 @@ export default class Request extends React.Component {
             <li className={styles.requestItemContainer}>
               <h2 className={styles.requestItemLabel}>Description</h2>
 
-              <div className={styles.requestDescription}>
-                {this.state.request.description}
-              </div>
+              <ContentEditable
+                html={this.state.request.description}
+                disabled={false}
+                //onchange={}
+                className={styles.requestDescription}
+              />
             </li>
           </ul>
 
