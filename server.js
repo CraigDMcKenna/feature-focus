@@ -132,6 +132,24 @@ router.route('/users')
   })
 
 
+// Users: get all following by user :id
+router.route('/user/all-following/:id')
+
+  .get((req,res) => {
+
+    r.table('users')
+    .get(req.params.id)('following')
+    .eqJoin('requestId', r.table('feature_requests'))
+    .without({left: 'requestId'})
+    .zip()
+    .eqJoin('clientId', r.table('clients'))
+    .without({right: 'id'})
+    .zip()
+    .run(res._rdbConn)
+    .then((result) => res.json(result))
+  })
+
+
 // Users: get user following status of requst
 // for given feature_requst id (:id) and user id
 router.route('/user/following/:id')
@@ -152,7 +170,8 @@ router.route('/user/following/:id')
   })
 
 
-// User follow feature request given { userId: <userId>, requestId: <requestId> }
+// User follow feature request given
+// { userId: <userId>, requestId: <requestId> }
 router.route('/user/follow')
 
   .post((req, res) => {
@@ -170,7 +189,8 @@ router.route('/user/follow')
   })
 
 
-// User unfollow feature request given { userId: <userId>, requestId: <requestId> }
+// User unfollow feature request given
+// { userId: <userId>, requestId: <requestId> }
 router.route('/user/unfollow')
 
   .post((req, res) => {

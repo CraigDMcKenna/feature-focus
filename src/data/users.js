@@ -14,6 +14,17 @@ export default {
     })
   },
 
+  userAllFollowing: (userId, callback) => {
+    request
+      .get(`api/user/all-following/${userId}`)
+      .set('x-access-token', localStorage.token)
+      .end((err, res) => {
+        if (err) console.log(err)
+
+        callback(res.body)
+    })
+  },
+
   userFollow: (requestId, userId, callback) => {
     let requestBody = {
       requestId: requestId,

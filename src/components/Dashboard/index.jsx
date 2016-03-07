@@ -4,6 +4,7 @@ import Moment from 'moment'
 import clients from '../../data/clients'
 import products from '../../data/products'
 import featureRequests from '../../data/feature-requests'
+import users from '../../data/users'
 import styles from './styles.css'
 
 export default class Dashboard extends React.Component {
@@ -20,6 +21,7 @@ export default class Dashboard extends React.Component {
 
     this.loadRequests = this.loadRequests.bind(this)
     this.loadRequestsByUser = this.loadRequestsByUser.bind(this)
+    this.loadFollowing = this.loadFollowing.bind(this)
   }
 
   loadRequests() {
@@ -41,9 +43,17 @@ export default class Dashboard extends React.Component {
     })
   }
 
+  loadFollowing() {
+    users.userAllFollowing(localStorage.user_id, (response) => {
+      console.log(response)
+      this.setState({following: response})
+    })
+  }
+
   componentDidMount() {
     this.loadRequests()
     this.loadRequestsByUser(localStorage.user_id)
+    this.loadFollowing()
   }
 
   render() {
