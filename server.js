@@ -139,38 +139,56 @@ router.route('/user/following/:id')
   .get((req,res) => {
 
     r.table('users')
-    .getAll(req.headers['x-user-id'])
-    .filter(function(user) {
-      return {
-        following: user('following')
-
-        .filter(function(follow){
-          return follow('requestId').eq(req.params.id)
-        })
-      }
+    .get(req.headers['x-user-id'])('following')
+    .filter((row) => {
+      return row('requestId').eq(req.params.id)
     })
-    .pluck('following')
     .run(res._rdbConn)
-    .then((cursor) => {
-      return cursor.toArray()
-    })
     .then((result) => {
-      let response = {following: true}
+      let response = result.length ? true : false
 
-      if (result === 'undefined') { // sometimes weird 'undefined' responses
-        response.following = false
-      } else if (!result.length) {
-        response.following = false
-      } else if (!result[0].following.length) {
-        response.following = false
-      }
-
-      res.json(response)
+      res.json({following: response})
     })
   })
 
 
-//////////////////////////////////  Add Follow create & Delete /////////////////////////////////////
+// User follow feature request given { userId: <userId>, requestId: <requestId> }
+router.route('/user/follow')
+
+  .post((req, res) => {
+    r.table('users')
+      .get(req.body.userId)('following')
+      .append({requestId: req.body.requestId})
+      .run(res._rdbConn)
+      .then((result) => {
+        r.table('users')
+          .get(req.body.userId)  // comment out this line to apply to all users
+          .update({ following: result })
+          .run(res._rdbConn)
+          .then((result) => res.json(result))
+      })
+  })
+
+
+// User unfollow feature request given { userId: <userId>, requestId: <requestId> }
+router.route('/user/unfollow')
+
+  .post((req, res) => {
+    r.table('users')
+      .get(req.body.userId)('following')
+      .filter((row) => {
+        return row('requestId').ne(req.body.requestId)
+      })
+      .run(res._rdbConn)
+      .then((result) => {
+        r.table('users')
+          .get(req.body.userId)  // comment out this line to apply to all users
+          .update({ following: result })
+          .run(res._rdbConn)
+          .then((result) => res.json(result))
+      })
+  })
+
 
 // Clients
 router.route('/clients')

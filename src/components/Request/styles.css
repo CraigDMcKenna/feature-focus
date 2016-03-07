@@ -11,7 +11,7 @@
 }
 
 .follow {
-  /*position: relative;*/
+  position: relative;
   float: left;
   width: 40px;
   height: 40px;
@@ -294,6 +294,9 @@
   .requestUrl {
     min-width: 280px;
   }
+  .requestDescription {
+    min-width: 280px;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -325,6 +328,9 @@
     min-width: 200px;
   }
   .requestUrl{
+    min-width: 200px;
+  }
+  .requestDescription {
     min-width: 200px;
   }
 }

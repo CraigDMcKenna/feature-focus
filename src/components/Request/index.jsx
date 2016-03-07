@@ -37,7 +37,7 @@ export default class Request extends React.Component {
       description: ''
     }
 
-    this.loadRequest = this.loadRequest.bind(this),
+    this.loadRequest = this.loadRequest.bind(this)
     this.toggleFollowing = this.toggleFollowing.bind(this)
     this.editItem = this.editItem.bind(this)
     this.cancelEditItem = this.cancelEditItem.bind(this)
@@ -60,6 +60,16 @@ export default class Request extends React.Component {
 
   toggleFollowing() {
     this.setState({following: !this.state.following})
+
+    if (!this.state.following) {
+      users.userFollow(this.props.params.id, localStorage.user_id, (response) => {
+        return
+      })
+    } else {
+      users.userUnfollow(this.props.params.id, localStorage.user_id, (response) => {
+        return
+      })
+    }
   }
   //this is ugly!!!!!!!
   handleContentChange(stateObjKey, event) {
