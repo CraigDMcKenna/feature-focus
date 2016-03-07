@@ -10,8 +10,7 @@
 
 ### 3. ~~Deploy to AWS~~
 
-### 4. README.md that contains the detailed instructions for running/installing app.
-  * needs update
+### 4. ~~README.md that contains the detailed instructions for running/installing app.~~
 
 ### 5. Must Have Features (form fields)
   * ~~**Title**: A short, descriptive name of the feature request.~~

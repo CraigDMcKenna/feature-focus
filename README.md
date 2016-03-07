@@ -3,6 +3,8 @@ Manage Customer Feature Requests
 
 [Preview Feature Focus](http://feature-focus.us-west-2.elasticbeanstalk.com/) on AWS.
 
+To login use your email and your last name as the password.
+
 [Roadmap](https://github.com/CraigDMcKenna/feature-focus/blob/master/ROADMAP.md)
 
 ## Installation
@@ -30,6 +32,79 @@ Manage Customer Feature Requests
 Feature Focus uses Nodemon to watch server files for changes and
 automatically restart the development server when you change them.
 
+
+Create a config file **config.js** in in the root of the project:
+
+```javascript
+export default {
+  rethinkdb: {
+    host: '0.0.0.0', // your host ip
+    port: 28015,
+    authKey: 'yourkey',
+    db: 'FeatureFocus'
+  },
+  secret: 'somesecret' // for Json Web Toke Auth
+}
+```
+
+Setup a Rethinkdb Database
+
+[RethinkDB on aws](https://aws.amazon.com/marketplace/pp/B013R60Q8Y/ref=sp_mpg_product_title?ie=UTF8&sr=0-2)
+
+[Deployment instructions](http://rethinkdb.com/docs/paas/)
+
+or local
+
+Then create 3 tables
+
+  * clients
+  * feature_request_history
+  * feature_requests
+  * products
+  * users
+
+
+insert clients products and user(s)
+
+**client schema**
+
+```json
+{
+"id":  "ab1a1574-fc53-4bd1-bd17-f626a713c14e" ,
+"name":  "Client C"
+},
+{
+"id":  "221cc10a-80d2-4748-b3cf-f12298c0f84f" ,
+"name":  "Client F"
+}
+```
+
+**user schema**
+
+```json
+{
+"email": "you@email.com",
+"following": [ ],
+"id":  "70eedd7e-43b3-4c52-8cbb-abda2faeee45",
+"name": {
+"first":  "You" ,
+"last":  "You"
+} ,
+"password":  "password"
+}
+```
+
+
+**products schema**
+
+```json
+{
+"id":  "c599ff5d-93bd-4603-a27a-db27cf41f0c0" ,
+"productName":  "Billing"
+}
+```
+
+
  **2. Starting the Development Server**
 
  ```bash
@@ -52,16 +127,6 @@ Most webpack compile time errors will be displayed
 directly on the page in your browser.
 
 **Notes Regarding Development:**
-*  Feature Focus uses [CSS Modules](http://glenmaddern.com/articles/css-modules).
-   Therefore there is no need to namespace your css as CSS Modules takes care
-   of this for you.
-
-   *------Example?
-
-*  [Auto Prefixer](https://autoprefixer.github.io/): Feature Focus
-   will automatically insert vendor specific css prefixes for you.
-   This option is currently set to include only prefixes for the 2
-   most recent versions of the major browsers.
 
 *  If you are not seeing your changes in the browser even
    after refresh and there are no errors on the page check the
@@ -86,7 +151,7 @@ When the webpack build process is complete the app is ready to deploy.
 ## Deploy
 Deploy to AWS EC2 using Elastic Beanstalk.
 
-**1. Install the AWS CLI and configure**
+**2. Install the AWS CLI and setup**
 
 **Requires Python and pip.*
 
@@ -94,23 +159,14 @@ Deploy to AWS EC2 using Elastic Beanstalk.
 $ pip install awscli
 
 $ aws configure
+
+$ eb init
 ```
 
 *------Detail?
 
 
-**2. Install Elastic Beanstalk CLI and Initialize
-
- ```bash
-$ pip install awscli
-
-$ eb init
-```
-
- *------Detail?
-
-
-
+**4. Deploy
 
 ```bash
 $ eb create

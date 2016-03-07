@@ -150,7 +150,7 @@ router.route('/user/all-following/:id')
   })
 
 
-// Users: get user following status of requst
+// Users: get user following status of request
 // for given feature_requst id (:id) and user id
 router.route('/user/following/:id')
 
@@ -369,14 +369,14 @@ router.route('/feature-requests/user/:id')
   .get((req, res) => {
 
     r.table('feature_requests')
-      .indexWait('createdBy')
+      .indexWait('owner')
       .run(res._rdbConn)
       .then(
         r.table('feature_requests')
           .eqJoin('clientId', r.table('clients'))
           .without({right: 'id'})
           .zip()
-          .filter({'createdBy': req.params.id})
+          .filter({'owner': req.params.id})
           .run(res._rdbConn).then((cursor) => {
             return cursor.toArray()
           })
