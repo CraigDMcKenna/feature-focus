@@ -2,6 +2,17 @@ import request from 'superagent'
 
 export default {
 
+  allUsers: (callback) => {
+    request
+      .get('api/users')
+      .set('x-access-token', localStorage.token)
+      .end((err, res) => {
+        if (err) console.log(err)
+
+        callback(res.body)
+    })
+  },
+
   userIsFollowing: (requestId, callback) => {
     request
       .get(`api/user/following/${requestId}`)

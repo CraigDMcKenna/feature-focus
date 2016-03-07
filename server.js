@@ -332,6 +332,7 @@ router.route('/feature-requests/request/:id')
         return {
           createdByName: r.table('users').get(item('createdBy')).pluck('name'),
           ownerName: r.table('users').get(item('owner')).pluck('name'),
+          ownerAvatar: r.table('users').get(item('owner')).pluck('avatar'),
           clientName: r.table('clients').get(item('clientId')).pluck('name'),
           productName: r.table('products').get(item('productId')).pluck('productName')
         }

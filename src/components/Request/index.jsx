@@ -28,13 +28,17 @@ export default class Request extends React.Component {
         productName: {productName: ''},
         ticketUrl: '',
         description: '',
+        ownerAvatar: ''
       },
+      users: [],
       following: false,
       loading: true,
       titleEdit: false,
       title: '',
       descriptionEdit: false,
-      description: ''
+      description: '',
+      ownerSelect: false,
+      newOwner: ''
     }
 
     this.loadRequest = this.loadRequest.bind(this)
@@ -43,6 +47,9 @@ export default class Request extends React.Component {
     this.cancelEditItem = this.cancelEditItem.bind(this)
     this.saveItem = this.saveItem.bind(this)
     this.handleContentChange = this.handleContentChange.bind(this)
+    this.toggleSelectOwner = this.toggleSelectOwner.bind(this)
+    this.saveOwner = this.saveOwner.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
   }
 
   loadRequest(id) {
@@ -55,6 +62,8 @@ export default class Request extends React.Component {
         this.setState({following: response.following})
         this.setState({loading: false})
       })
+
+      users.allUsers((response) => this.setState({users: response}))
     })
   }
 
@@ -128,6 +137,8 @@ export default class Request extends React.Component {
         this.setState({[stateEditKey] : false})
 
         history.insertHistoryMessage(messageBody, () => {
+          this.refs.history.loadHistory(this.props.params.id)
+          this.loadRequest(this.props.params.id)
           this.setState({loading: false})
         })
       } else {
@@ -135,6 +146,49 @@ export default class Request extends React.Component {
         this.setState({[stateEditKey] : false})
       }
     })
+  }
+
+  saveOwner() {
+    let update = {
+      id: this.state.request.id,
+      updateItem: 'owner',
+      value: this.state.newOwner
+    }
+
+    this.setState({loading: true})
+    this.setState({ownerSelect: false})
+
+    featureRequests.updateRequest(update, (response) => {
+      console.log(response)
+      if (response.length) {
+        let message = 'Changed owner from: ' +
+          this.state.request.ownerName.name.first + ' ' +
+          this.state.request.ownerName.name.last
+
+        let messageBody = {
+          id: this.state.request.id,
+          type: 'update',
+          authorId: localStorage.user_id,
+          message: message
+        }
+
+        history.insertHistoryMessage(messageBody, () => {
+            this.refs.history.loadHistory(this.props.params.id)
+            this.loadRequest(this.props.params.id)
+            this.setState({loading: false})
+        })
+      } else {
+        this.setState({loading: false})
+      }
+    })
+  }
+
+  toggleSelectOwner() {
+    this.setState({ownerSelect: !this.state.ownerSelect})
+  }
+
+  handleSelectChange(event) {
+    this.setState({newOwner: event.target.value})
   }
 
   componentDidMount() {
@@ -168,6 +222,25 @@ export default class Request extends React.Component {
 
     let descriptionEditButtonsClass = this.state.descriptionEdit ?
       styles.editButtonsShow : styles.editButtons
+
+    let ownerSelectButtonsClass = this.state.ownerSelect ?
+      styles.editButtonsShow : styles.editButtons
+
+    let users = this.state.users.map((user) => {
+      return (
+        <option value={user.id} key={user.id}>
+          {user.name.first + ' ' + user.name.last}
+        </option>
+      )
+    })
+
+    let ownerInfoStyle = !this.state.ownerSelect ?
+      {display: 'initial'} :
+      {display: 'none'}
+
+    let ownerSelectStyle = this.state.ownerSelect ?
+      {display: 'initial'} :
+      {display: 'none'}
 
     return (
       <div>
@@ -221,18 +294,51 @@ export default class Request extends React.Component {
           </div>
 
           <div className={styles.ownerContainer}>
-              <p className={styles.ownerText}>
-                owner:
-                <br />
-                {ownerName}
-                <br />
-                <a href="#" className={styles.link}>change</a>
-              </p>
-              <img
-                className={styles.ownerImage}
-                src="https://avatars3.githubusercontent.com/u/13183831?v=3&s=460"
-              />
+              <div className={styles.ownerText}>
 
+                <div style={ownerInfoStyle}>
+                  owner:<br />{ownerName}<br />
+                  <a className={styles.link}
+                    onClick={this.toggleSelectOwner}
+                  >
+                    change
+                  </a>
+                </div>
+
+                <div ref="titleEditButtons" className={ownerSelectButtonsClass}>
+                  <div
+                    className={styles.editButton}
+                    onClick={this.saveOwner}
+                   >
+                    save
+                  </div>
+                  <div
+                    className={styles.editButton}
+                    onClick={this.toggleSelectOwner}
+                  >
+                    cancel
+                  </div>
+                </div>
+
+
+                <br />
+                <select className={styles.ownerSelect}
+                  style={ownerSelectStyle}
+                  onChange={(e) => this.handleSelectChange(e)}>
+                  <option value="">Select a User</option>
+                  {users}
+                </select>
+              </div>
+              <div className={styles.ownerImageWrapper}>
+
+                {this.state.request.ownerAvatar.avatar &&
+                  <img
+                    src={this.state.request.ownerAvatar.avatar}
+                    className={styles.ownerImage}
+                  />
+                }
+
+              </div>
           </div>
         </section>
 
@@ -305,7 +411,7 @@ export default class Request extends React.Component {
             </li>
           </ul>
 
-          <History requestId={this.props.params.id} />
+          <History ref="history" requestId={this.props.params.id} />
         </section>
       </div>
     )

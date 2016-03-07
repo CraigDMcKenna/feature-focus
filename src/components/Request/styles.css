@@ -133,6 +133,27 @@
   composes: sansBold from '../../styles-common/typography.css';
   composes: purple from '../../styles-common/colors.css';
   text-decoration: none;
+  cursor: default;
+}
+
+.ownerSelect {
+  composes: sans from '../../styles-common/typography.css';
+  margin-top: 20px;
+  padding: 10px;
+  outline: none;
+  border: 2px solid rgb(242, 242, 242);
+  background-color: white;
+  font-size: 14px;
+}
+
+.ownerImageWrapper {
+  height: 100px;
+  width: 100px;
+  background-color: rgb(116, 88, 127);
+  background-image: url('../../images/usericon.svg');
+  background-size: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .ownerImage {
