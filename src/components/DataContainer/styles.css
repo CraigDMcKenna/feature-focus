@@ -26,14 +26,43 @@
 }
 
 .menuBar {
+  width: 100%;
   display: flex;
-  width: 36px;
-  height: 36px;
   margin: 0 12px;
 }
 
 .menuBarLoading {
 
+}
+
+.menuItems {
+  margin: 6px 0;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.menuItem {
+  composes: sansBold from '../../styles-common/typography.css';
+  padding: 6px;
+  list-style: none;
+  display: block;
+  color: white;
+}
+
+.sortLabel {
+  composes: menuItem;
+}
+
+.sort {
+  composes: menuItem;
+  margin-left: 24px;
+  text-align: center;
+  cursor: default;
+}
+
+.sort:hover {
+  background-color: rgb(234, 218, 241);
+  color: rgb(116, 88, 127);
 }
 
 .tableWrapper {
