@@ -1,19 +1,9 @@
 import React from 'react'
 import styles from './styles.css'
 import Moment from 'moment'
-import { Router, Route, Link } from 'react-router'
-
-
+import { Link } from 'react-router'
 
 export default class DataContainer extends React.Component {
-  constructor() {
-    super()
-
-    this.state = {
-      loading: true
-    }
-
-  }
 
   render() {
     let content = this.props.content.length === 0 || undefined ?
@@ -58,7 +48,13 @@ export default class DataContainer extends React.Component {
         </h1>
 
         <div className={styles.container}>
-          <div className={styles.menuBar}></div>
+          <div className={styles.menuBar}>
+            <ul className={styles.menuItems}>
+              <li className={styles.sortLabel}>Sort By:</li>
+              <li onClick={this.props.sortDate} className={styles.sort}>Target Date</li>
+              <li onClick={this.props.sortClient} className={styles.sort}>Client</li>
+            </ul>
+          </div>
             <div className={styles.tableWrapper}>
               <table className={styles.data}>
                 <tbody>

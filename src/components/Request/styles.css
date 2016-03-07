@@ -11,7 +11,7 @@
 }
 
 .follow {
-  /*position: relative;*/
+  position: relative;
   float: left;
   width: 40px;
   height: 40px;
@@ -72,6 +72,7 @@
 }
 
 .editButtons {
+  position: absolute;
   display: none;
   overflow: hidden;
   position: absolute;
@@ -103,7 +104,7 @@
   margin-left: 12px;
   font-size: 1.4em;
 }
-
+/*
 .priorityNumber:hover:after {
   margin-left: 12px;
   padding: 4px;
@@ -112,10 +113,7 @@
   color: white;
   content: 'edit';
 }
-
-.priorityNumber:active:after {
-  display: none;
-}
+*/
 
 .ownerContainer {
   display: flex;
@@ -135,6 +133,27 @@
   composes: sansBold from '../../styles-common/typography.css';
   composes: purple from '../../styles-common/colors.css';
   text-decoration: none;
+  cursor: default;
+}
+
+.ownerSelect {
+  composes: sans from '../../styles-common/typography.css';
+  margin-top: 20px;
+  padding: 10px;
+  outline: none;
+  border: 2px solid rgb(242, 242, 242);
+  background-color: white;
+  font-size: 14px;
+}
+
+.ownerImageWrapper {
+  height: 100px;
+  width: 100px;
+  background-color: rgb(116, 88, 127);
+  background-image: url('../../images/usericon.svg');
+  background-size: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .ownerImage {
@@ -206,6 +225,15 @@
   border: none;
 }
 
+.requestDescription:hover {
+  cursor: default;
+}
+
+.requestDescription:focus {
+  cursor: text;
+}
+
+/*
 .requestItem:hover:after {
   position: absolute;
   margin-left: 12px;
@@ -215,10 +243,7 @@
   color: white;
   content: 'edit';
 }
-
-.requestItem:active:after {
-  display: none;
-}
+*/
 
 .historyContainer {
   margin: 40px 0 0 24px;
@@ -294,6 +319,9 @@
   .requestUrl {
     min-width: 280px;
   }
+  .requestDescription {
+    min-width: 280px;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -325,6 +353,9 @@
     min-width: 200px;
   }
   .requestUrl{
+    min-width: 200px;
+  }
+  .requestDescription {
     min-width: 200px;
   }
 }

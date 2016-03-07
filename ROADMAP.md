@@ -34,9 +34,9 @@
   * ~~Edit Feature Request Title~~
   * ~~Edit Feature Request Description~~
   * ~~Logout~~
-  * Sortable Data on Dashboard
-  * Follow/Favorite a Feature *Partially complete
-  * Assign Feature to employee
+  * ~~Sortable Data on Dashboard~~
+  * ~~Follow/Favorite a Feature~~
+  * ~~Assign Feature to employee~~
   * Feature Updates and Messages
   * ~~Feature History/Timeline~~
   * Feature Notifications

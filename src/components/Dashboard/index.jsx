@@ -1,25 +1,28 @@
+import * as _ from 'lodash'
 import React from 'react'
 import DataContainer from '../DataContainer'
 import Moment from 'moment'
 import clients from '../../data/clients'
 import products from '../../data/products'
 import featureRequests from '../../data/feature-requests'
+import users from '../../data/users'
 import styles from './styles.css'
 
 export default class Dashboard extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
-      messageVisible: true,
       featureRequests: [],
       requestsByUser: [],
       dueThisWeek: [],
-      following: []
+      following: [],
     }
 
     this.loadRequests = this.loadRequests.bind(this)
     this.loadRequestsByUser = this.loadRequestsByUser.bind(this)
+    this.loadFollowing = this.loadFollowing.bind(this)
+    this.sortRequests =  this.sortRequests.bind(this)
   }
 
   loadRequests() {
@@ -41,9 +44,24 @@ export default class Dashboard extends React.Component {
     })
   }
 
+  loadFollowing() {
+    users.userAllFollowing(localStorage.user_id, (response) => {
+      this.setState({following: response})
+    })
+  }
+
+  sortRequests(stateObj, by) {
+    let sortedRequests = _.sortBy(this.state[stateObj], (o) => o[by])
+    console.log(sortedRequests)
+
+    this.setState({[stateObj]: sortedRequests})
+  }
+
+
   componentDidMount() {
     this.loadRequests()
     this.loadRequestsByUser(localStorage.user_id)
+    this.loadFollowing()
   }
 
   render() {
@@ -57,25 +75,37 @@ export default class Dashboard extends React.Component {
         </section>
 
         <main className={styles.data}>
+
           <DataContainer
-            label="Your FeatureRequests"
+            label="Your Feature Requests"
             emptyMessage="You are not he owner of any feature requests"
             content={this.state.requestsByUser}
+            sortDate={() => this.sortRequests('requestsByUser', 'targetDate')}
+            sortClient={() => this.sortRequests('requestsByUser', 'name')}
           />
+
           <DataContainer
-            label="Due this Week"
+            label="Due this Week / Overdue"
             emptyMessage="There are no feature requests due this week"
             content={this.state.dueThisWeek}
+            sortDate={() => this.sortRequests('dueThisWeel', 'targetDate')}
+            sortClient={() => this.sortRequests('dueThisWeek', 'name')}
           />
+
           <DataContainer
             label="Following"
             emptyMessage="You are not following any feature requests"
             content={this.state.following}
+            sortDate={() => this.sortRequests('following', 'targetDate')}
+            sortClient={() => this.sortRequests('following', 'name')}
           />
+
           <DataContainer
             label="All Requests"
             emptyMessage="There are no active feature requests"
             content={this.state.featureRequests}
+            sortDate={() => this.sortRequests('featureRequests', 'targetDate')}
+            sortClient={() => this.sortRequests('featureRequests', 'name')}
           />
         </main>
       </div>
