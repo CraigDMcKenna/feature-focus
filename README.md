@@ -35,7 +35,7 @@ Feature Focus uses Nodemon to watch server files for changes and
 automatically restart the development server when you change them.
 
 
-**2. Create a config file ***config.js*** in in the root of the project:**
+**2. Create a config file ```config.js``` in in the root of the project:**
 
 ```javascript
 export default {
