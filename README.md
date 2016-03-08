@@ -27,13 +27,15 @@ To login use your email and your last name as the password.
 
  ```bash
  $ npm install nodemon -g
+ 
+ $ npm install babel-cli -g
 ```
 
 Feature Focus uses Nodemon to watch server files for changes and
 automatically restart the development server when you change them.
 
 
-**2. Create a config file **config.js** in in the root of the project:**
+**2. Create a config file ***config.js*** in in the root of the project:**
 
 ```javascript
 export default {
@@ -47,7 +49,7 @@ export default {
 }
 ```
 
-** 3. Setup a Rethinkdb Database***
+**3. Setup a Rethinkdb Database**
 
 [RethinkDB on aws](https://aws.amazon.com/marketplace/pp/B013R60Q8Y/ref=sp_mpg_product_title?ie=UTF8&sr=0-2)
 
@@ -153,7 +155,7 @@ Deploy to AWS EC2 using Elastic Beanstalk.
 
 **2. Install the AWS CLI and setup**
 
-**Requires Python and pip.*
+**Requires Python and pip.**
 
 ```bash
 $ pip install awscli
@@ -166,7 +168,7 @@ $ eb init
 [aws cli docs](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
 
 
-**4. Deploy
+**4. Deploy**
 
 ```bash
 $ eb create
