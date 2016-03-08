@@ -36,7 +36,7 @@
   * ~~Sortable Data on Dashboard~~
   * ~~Follow/Favorite a Feature~~
   * ~~Assign Feature to employee~~
-  * Feature Updates and Messages
+  * ~~Feature Updates and Messages~~
   * ~~Feature History/Timeline~~
   * Feature Notifications
   * Build Linting
