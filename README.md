@@ -107,7 +107,7 @@ insert client(s) product(s) and user(s)
 ```
 
 
- **2. Starting the Development Server**
+ **4. Starting the Development Server**
 
  ```bash
  $ npm start
@@ -139,7 +139,7 @@ directly on the page in your browser.
 
 *  The dev server is configured with source maps for easier debugging.
 
-**3. Build**
+**5. Build**
 
 When you are ready for production you need to build/bundle
 the the app first.
@@ -153,7 +153,7 @@ When the webpack build process is complete the app is ready to deploy.
 ## Deploy
 Deploy to AWS EC2 using Elastic Beanstalk.
 
-**2. Install the AWS CLI and setup**
+**1. Install the AWS CLI and setup**
 
 **Requires Python and pip.**
 
@@ -168,7 +168,7 @@ $ eb init
 [aws cli docs](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
 
 
-**4. Deploy**
+**2. Deploy**
 
 ```bash
 $ eb create
