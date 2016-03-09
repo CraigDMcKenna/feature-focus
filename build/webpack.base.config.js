@@ -1,6 +1,7 @@
-var path = require('path');
-var autoprefixer = require('autoprefixer');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var path = require('path')
+var autoprefixer = require('autoprefixer')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: [
@@ -8,7 +9,7 @@ module.exports = {
   ],
 
   output: {
-    path: path.join(__dirname, '../public/'),
+    path: path.join(__dirname, '../public'),
     filename: 'bundle.js'
   },
 
@@ -21,7 +22,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+        loader: ExtractTextPlugin.extract(
+          'style-loader',
+          '!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+        )
       },
       {
         test: /\.(png|svg)$/,
@@ -38,8 +42,10 @@ module.exports = {
       template: path.join(__dirname, '../src/index.ejs'),
       title: 'Feature Focus',
       description: 'Manage Customer Feature Requests',
-      favicon: path.join(__dirname, '../src/images/favicon.ico')
-    })
+      favicon: path.join(__dirname, '../src/images/favicon.ico'),
+      css: 'styles.css'
+    }),
+    new ExtractTextPlugin('styles.css')
   ],
 
   resolve: {
